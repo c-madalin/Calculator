@@ -8,44 +8,46 @@
         Title="Calculator" Height="400" Width="300" Background="DarkGray">
 
     <Grid>
-        <!-- TextBox pentru a arăta rezultatul -->
-        <TextBox Name="ResultTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" Margin="10" FontSize="24" IsReadOnly="True" TextAlignment="Right"/>
+        <Grid Margin="0,114,0,27">
+            <!-- TextBox pentru a arăta rezultatul -->
+            <TextBox Name="ResultTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" Margin="10" FontSize="24" IsReadOnly="True" TextAlignment="Right"/>
 
-        <!-- Grid pentru butoane -->
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,60,10,10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+            <!-- Grid pentru butoane -->
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,60,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <Button Content="7" Grid.Row="0" Grid.Column="0" Click="Button_Click" FontSize="24"/>
-            <Button Content="8" Grid.Row="0" Grid.Column="1" Click="Button_Click" FontSize="24"/>
-            <Button Content="9" Grid.Row="0" Grid.Column="2" Click="Button_Click" FontSize="24"/>
-            <Button Content="/" Grid.Row="0" Grid.Column="3" Click="Operator_Click" FontSize="24"/>
+                <Button Content="7" Grid.Row="0" Grid.Column="0" Click="Button_Click" FontSize="24"/>
+                <Button Content="8" Grid.Row="0" Grid.Column="1" Click="Button_Click" FontSize="24"/>
+                <Button Content="9" Grid.Row="0" Grid.Column="2" Click="Button_Click" FontSize="24"/>
+                <Button Content="/" Grid.Row="0" Grid.Column="3" Click="Operator_Click" FontSize="24"/>
 
-            <Button Content="4" Grid.Row="1" Grid.Column="0" Click="Button_Click" FontSize="24"/>
-            <Button Content="5" Grid.Row="1" Grid.Column="1" Click="Button_Click" FontSize="24"/>
-            <Button Content="6" Grid.Row="1" Grid.Column="2" Click="Button_Click" FontSize="24"/>
-            <Button Content="*" Grid.Row="1" Grid.Column="3" Click="Operator_Click" FontSize="24"/>
+                <Button Content="4" Grid.Row="1" Grid.Column="0" Click="Button_Click" FontSize="24"/>
+                <Button Content="5" Grid.Row="1" Grid.Column="1" Click="Button_Click" FontSize="24"/>
+                <Button Content="6" Grid.Row="1" Grid.Column="2" Click="Button_Click" FontSize="24"/>
+                <Button Content="*" Grid.Row="1" Grid.Column="3" Click="Operator_Click" FontSize="24"/>
 
-            <Button Content="1" Grid.Row="2" Grid.Column="0" Click="Button_Click" FontSize="24"/>
-            <Button Content="2" Grid.Row="2" Grid.Column="1" Click="Button_Click" FontSize="24"/>
-            <Button Content="3" Grid.Row="2" Grid.Column="2" Click="Button_Click" FontSize="24"/>
-            <Button Content="-" Grid.Row="2" Grid.Column="3" Click="Operator_Click" FontSize="24"/>
+                <Button Content="1" Grid.Row="2" Grid.Column="0" Click="Button_Click" FontSize="24"/>
+                <Button Content="2" Grid.Row="2" Grid.Column="1" Click="Button_Click" FontSize="24"/>
+                <Button Content="3" Grid.Row="2" Grid.Column="2" Click="Button_Click" FontSize="24"/>
+                <Button Content="-" Grid.Row="2" Grid.Column="3" Click="Operator_Click" FontSize="24"/>
 
-            <Button Content="0" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Click="Button_Click" FontSize="24"/>
-            <Button Content="=" Grid.Row="3" Grid.Column="2" Click="Equals_Click" FontSize="24"/>
-            <Button Content="+" Grid.Row="3" Grid.Column="3" Click="Operator_Click" FontSize="24"/>
+                <Button Content="0" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Click="Button_Click" FontSize="24"/>
+                <Button Content="=" Grid.Row="3" Grid.Column="2" Click="Equals_Click" FontSize="24"/>
+                <Button Content="+" Grid.Row="3" Grid.Column="3" Click="Operator_Click" FontSize="24"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>
