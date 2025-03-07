@@ -5,49 +5,76 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator_APP_"
         mc:Ignorable="d"
-        Title="Calculator" Height="400" Width="300" Background="DarkGray">
+        Title="Calculator" Height="600" Width="314" MinWidth="314" MinHeight="600" Background="#2C2F33">
 
     <Grid>
-        <Grid Margin="0,114,0,27">
-            <!-- TextBox pentru a arăta rezultatul -->
-            <TextBox Name="ResultTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" Margin="10" FontSize="24" IsReadOnly="True" TextAlignment="Right"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-            <!-- Grid pentru butoane -->
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,60,10,10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+        <TextBox Name="ResultTextBox" Grid.Row="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" Margin="10" FontSize="24" IsReadOnly="True" TextAlignment="Right" Background="#23272A" Foreground="White" BorderBrush="#7289DA" BorderThickness="2"/>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Content="MC" Grid.Row="0" Grid.Column="0" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="MR" Grid.Row="0" Grid.Column="1" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="M+" Grid.Row="0" Grid.Column="2" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="M-" Grid.Row="0" Grid.Column="3" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="MS" Grid.Row="0" Grid.Column="4" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="MD" Grid.Row="0" Grid.Column="5" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+        </Grid>
 
-                <Button Content="7" Grid.Row="0" Grid.Column="0" Click="Button_Click" FontSize="24"/>
-                <Button Content="8" Grid.Row="0" Grid.Column="1" Click="Button_Click" FontSize="24"/>
-                <Button Content="9" Grid.Row="0" Grid.Column="2" Click="Button_Click" FontSize="24"/>
-                <Button Content="/" Grid.Row="0" Grid.Column="3" Click="Operator_Click" FontSize="24"/>
+        <Grid Grid.Row="3" Margin="10,80,10,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-                <Button Content="4" Grid.Row="1" Grid.Column="0" Click="Button_Click" FontSize="24"/>
-                <Button Content="5" Grid.Row="1" Grid.Column="1" Click="Button_Click" FontSize="24"/>
-                <Button Content="6" Grid.Row="1" Grid.Column="2" Click="Button_Click" FontSize="24"/>
-                <Button Content="*" Grid.Row="1" Grid.Column="3" Click="Operator_Click" FontSize="24"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <Button Content="1" Grid.Row="2" Grid.Column="0" Click="Button_Click" FontSize="24"/>
-                <Button Content="2" Grid.Row="2" Grid.Column="1" Click="Button_Click" FontSize="24"/>
-                <Button Content="3" Grid.Row="2" Grid.Column="2" Click="Button_Click" FontSize="24"/>
-                <Button Content="-" Grid.Row="2" Grid.Column="3" Click="Operator_Click" FontSize="24"/>
+            <Button Content="CE" Grid.Row="1" Grid.Column="1" Click="Button_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="C" Grid.Row="1" Grid.Column="0" Click="Clear_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="del" Grid.Row="1" Grid.Column="2" Click="Delete_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="%" Grid.Row="1" Grid.Column="3" Click="Operator_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
 
-                <Button Content="0" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Click="Button_Click" FontSize="24"/>
-                <Button Content="=" Grid.Row="3" Grid.Column="2" Click="Equals_Click" FontSize="24"/>
-                <Button Content="+" Grid.Row="3" Grid.Column="3" Click="Operator_Click" FontSize="24"/>
-            </Grid>
+            <Button Content="7" Grid.Row="2" Grid.Column="0" Click="Button_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="8" Grid.Row="2" Grid.Column="1" Click="Button_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="9" Grid.Row="2" Grid.Column="2" Click="Button_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="/" Grid.Row="2" Grid.Column="3" Click="Operator_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+
+            <Button Content="4" Grid.Row="3" Grid.Column="0" Click="Button_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="5" Grid.Row="3" Grid.Column="1" Click="Button_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="6" Grid.Row="3" Grid.Column="2" Click="Button_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="*" Grid.Row="3" Grid.Column="3" Click="Operator_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+
+            <Button Content="1" Grid.Row="4" Grid.Column="0" Click="Button_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="2" Grid.Row="4" Grid.Column="1" Click="Button_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="3" Grid.Row="4" Grid.Column="2" Click="Button_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="-" Grid.Row="4" Grid.Column="3" Click="Operator_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+
+            <Button Content="." Grid.Row="5" Grid.Column="0" Click="Button_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="0" Grid.Row="5" Grid.Column="1" Click="Button_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
+            <Button Content="=" Grid.Row="5" Grid.Column="2" Click="Equals_Click" FontSize="24" Background="#7289DA" Foreground="White" BorderThickness="2" FontWeight="Bold" CornerRadius="10"/>
+            <Button Content="+" Grid.Row="5" Grid.Column="3" Click="Operator_Click" FontSize="24" Style="{StaticResource CalcButtonStyle}"/>
         </Grid>
     </Grid>
 </Window>

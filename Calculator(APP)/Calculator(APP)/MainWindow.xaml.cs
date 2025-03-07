@@ -36,6 +36,19 @@ namespace Calculator_APP_
                 _currentInput = string.Empty;
             }
         }
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentInput.Length > 0)
+            {
+                _currentInput = _currentInput.Remove(_currentInput.Length - 1);
+                ResultTextBox.Text = _currentInput;
+            }
+        }
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            _currentInput = string.Empty;
+            ResultTextBox.Text = string.Empty;
+        }   
 
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
@@ -55,6 +68,9 @@ namespace Calculator_APP_
                     break;
                 case "/":
                     result = _firstNumber / _secondNumber;
+                    break;
+                case "%":
+                    result = _firstNumber % _secondNumber;
                     break;
             }
 
