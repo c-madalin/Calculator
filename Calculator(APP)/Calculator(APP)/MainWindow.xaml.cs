@@ -36,6 +36,45 @@ namespace Calculator_APP_
                 _currentInput = string.Empty;
             }
         }
+
+        //private void ModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    ComboBox comboBox = sender as ComboBox;
+        //    if (comboBox != null)
+        //    {
+        //        ComboBoxItem selectedItem = comboBox.SelectedItem as ComboBoxItem;
+        //        if (selectedItem != null)
+        //        {
+        //            string selectedMode = selectedItem.Content.ToString();
+        //            switch (selectedMode)
+        //            {
+        //                case "Calculator Standard":
+        //                    // Navigate to Standard Calculator Page
+        //                    MessageBox.Show("Navigating to Standard Calculator");
+        //                    break;
+        //                case "Calculator Programator":
+        //                    // Navigate to Programmer Calculator Page
+        //                    MessageBox.Show("Navigating to Programmer Calculator");
+        //                    break;
+        //            }
+        //        }
+        //    }
+        //}
+        // MainWindow.xaml.cs
+        private void ModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ModeComboBox.SelectedIndex == 0)
+            {
+                // Calculator standard
+                MainFrame.Navigate(new Uri("StandardCalculatorPage.xaml", UriKind.Relative));
+            }
+            else if (ModeComboBox.SelectedIndex == 1)
+            {
+                // Calculator programator
+                MainFrame.Navigate(new Uri("ProgrammerCalculatorPage.xaml", UriKind.Relative));
+            }
+        }
+
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             if (_currentInput.Length > 0)
