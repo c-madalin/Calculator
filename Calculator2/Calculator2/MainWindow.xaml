@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:Calculator2"
         mc:Ignorable="d"
         Title="Calculator" Height="800" Width="450">
-    <Grid Background="Aqua">
+    <Window.Background>
+        <ImageBrush ImageSource="images/wlp.png"/>
+    </Window.Background>
+    <Grid>
         <StackPanel Orientation="Horizontal" Height="55" VerticalAlignment="Top">
             <Button x:Name="Standard" Content="Standard" Width="100" Height="30" Click="Standard_Click" Margin="10,0,0,0"/>
             <Button x:Name="Programmer" Content="Programmer" Width="100" Height="30" Click="Programmer_Click" Margin="10,0,0,0"/>
