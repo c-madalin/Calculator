@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:Calculator2"
       mc:Ignorable="d" 
       d:DesignHeight="745" d:DesignWidth="450"
-      Title="StandardPage">
+      Title="StandardPage"
+      PreviewKeyDown="Page_PreviewKeyDown">
 
     <Grid>
         <!-- Adăugare rânduri suplimentare deasupra butoanelor -->

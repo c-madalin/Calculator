@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Calculator2
 {
@@ -17,6 +18,67 @@ namespace Calculator2
         public StandardPage()
         {
             InitializeComponent();
+        }
+        private void Operator_ClickFromKeyboard(Key key)
+        {
+            if (!string.IsNullOrEmpty(_currentInput))
+            {
+                _firstNumber = double.Parse(_currentInput);
+                _currentInput = string.Empty;
+
+                switch (key)
+                {
+                    case Key.Add:
+                        _operator = "+";
+                        break;
+                    case Key.Subtract:
+                        _operator = "-";
+                        break;
+                    case Key.Multiply:
+                        _operator = "*";
+                        break;
+                    case Key.Divide:
+                        _operator = "/";
+                        break;
+                }
+            }
+        }
+
+        private void Page_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key >= Key.D0 && e.Key <= Key.D9) // Numere de la tastatură
+            {
+                _currentInput += (e.Key - Key.D0).ToString();
+            }
+            else if (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) // Numere de la Numpad
+            {
+                _currentInput += (e.Key - Key.NumPad0).ToString();
+            }
+            else if (e.Key == Key.OemComma || e.Key == Key.OemPeriod) // Punct sau virgulă
+            {
+                if (!_currentInput.Contains(".")) // Evită mai multe puncte
+                {
+                    _currentInput += ".";
+                }
+            }
+            else if (e.Key == Key.Add || e.Key == Key.Subtract || e.Key == Key.Multiply || e.Key == Key.Divide)
+            {
+                Operator_ClickFromKeyboard(e.Key);
+            }
+            else if (e.Key == Key.Enter || e.Key == Key.Return)
+            {
+                Equals_Click(null, null);
+            }
+            else if (e.Key == Key.Back)
+            {
+                Delete_Click(null, null);
+            }
+            else if (e.Key == Key.Escape)
+            {
+                Clear_Click(null, null);
+            }
+
+            ResultTextBox.Text = _currentInput;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
