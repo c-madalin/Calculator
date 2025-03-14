@@ -17,16 +17,7 @@ namespace Calculator_APP_
                 menuBar.PageChanged += ChangePage;
             }
         }
-        public void Standard_Click(object sender, RoutedEventArgs e)
-        {
-            Main.Content = new StandardPage();
-        }
-        public void Programmer_Click(object sender, RoutedEventArgs e)
-        {
-            Main.Content = new ProgrammerPage();
-        }
-        
-
+     
         private void ChangePage(Type pageType)
         {
             Main.Content = Activator.CreateInstance(pageType);

@@ -19,7 +19,7 @@
 
             <!-- Înlocuiește secțiunea cu TitleBar -->
             <local:TitleBar x:Name="TitleBar" Grid.Row="0" />
-            <local:MenuBar x:Name="MenuBar" Grid.Row="1"/>
+            <local:MenuBar x:Name="MenuBar" Grid.Row="1" Margin="0,0,0,20"/>
 
 
             <Frame Grid.Row="2" x:Name="Main" NavigationUIVisibility="Hidden"/>
