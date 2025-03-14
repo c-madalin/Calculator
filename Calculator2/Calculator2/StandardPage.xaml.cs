@@ -120,29 +120,9 @@ namespace Calculator2
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
             _secondNumber = double.Parse(_currentInput);
-            double result = 0;
+            _currentInput = CalculatorVM.Calculator(_firstNumber, _secondNumber, _operator).ToString();
+            ResultTextBox.Text = _currentInput;
 
-            switch (_operator)
-            {
-                case "+":
-                    result = _firstNumber + _secondNumber;
-                    break;
-                case "-":
-                    result = _firstNumber - _secondNumber;
-                    break;
-                case "*":
-                    result = _firstNumber * _secondNumber;
-                    break;
-                case "/":
-                    result = _firstNumber / _secondNumber;
-                    break;
-                case "%":
-                    result = _firstNumber % _secondNumber;
-                    break;
-            }
-
-            ResultTextBox.Text = result.ToString();
-            _currentInput = result.ToString();
         }
     }
 }

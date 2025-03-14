@@ -5,25 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator_APP_"
         mc:Ignorable="d"
-        Title="Calculator" Height="900" Width="500" MinWidth="314" MinHeight="600" Background="#302c27">
+        WindowStyle="None" 
+        AllowsTransparency="True"
+        Title="Calculator" Height="800" Width="450" MinWidth="354" MinHeight="600" Background="#302c27">
+    <Border Background="#FF202020" CornerRadius="8" BorderThickness="0.5" BorderBrush="White">
 
-    <Grid Background="Black">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="11*"/>
-            <ColumnDefinition Width="9*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Înlocuiește secțiunea cu TitleBar -->
+            <local:TitleBar x:Name="TitleBar" Grid.Row="0" />
+            <local:MenuBar x:Name="MenuBar" Grid.Row="1"/>
 
 
-        <ComboBox Name="ModeComboBox" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" Height="30" Margin="10,0,0,0" FontSize="16" SelectionChanged="ModeComboBox_SelectionChanged">
-            <ComboBoxItem Content="Calculator Standard"/>
-            <ComboBoxItem Content="Calculator Programator"/>
-        </ComboBox>
-
-        <ContentControl Name="MainContent" Grid.Row="1" Margin="10,10,10,10" Grid.ColumnSpan="2"/>
-        <Frame x:Name="MainFrame" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,50,0,0"/>
-    </Grid>
+            <Frame Grid.Row="2" x:Name="Main" NavigationUIVisibility="Hidden"/>
+        </Grid>
+    </Border>
 </Window>

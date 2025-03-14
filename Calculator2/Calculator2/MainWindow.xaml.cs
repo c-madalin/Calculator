@@ -13,7 +13,7 @@ namespace Calculator2
             InitializeComponent();
             Main.Content = new StandardPage();
             isInitialized = true;
-            //DataContext = new CalculatorVM();
+            DataContext = new CalculatorVM();
         }
         
 
