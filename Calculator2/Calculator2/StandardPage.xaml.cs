@@ -120,7 +120,6 @@ namespace Calculator2
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
             _secondNumber = double.Parse(_currentInput);
-            _currentInput = CalculatorVM.Calculator(_firstNumber, _secondNumber, _operator).ToString();
             ResultTextBox.Text = _currentInput;
 
         }

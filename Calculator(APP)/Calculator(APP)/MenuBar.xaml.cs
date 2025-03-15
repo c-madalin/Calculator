@@ -23,6 +23,9 @@ namespace Calculator_APP_
         {
             PageChanged?.Invoke(typeof(ProgrammerPage));
         }
-
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Calculator WPF\nCreated by: [Cazan Madalin Cristian]\nGroup: [10LF331]", "About");
+        }
     }
 }

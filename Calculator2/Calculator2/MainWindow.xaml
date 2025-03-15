@@ -5,77 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator2"
         mc:Ignorable="d"
-        Title="Calculator" Height="800" Width="450" MinHeight="700" MinWidth="400"
-        WindowStyle="None"         
-
-        >
-        <!-- Icon="Images/Windows_Calculator_icon.ico" -->
-    <Window.Background>
-        <ImageBrush ImageSource="images/wlp.png"/>
-    </Window.Background>
+        Title="Calculator" Height="800" Width="450" MinHeight="700" MinWidth="400">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <!-- Titlul -->
-            <RowDefinition Height="Auto"/>
-            <!-- Butoane și ComboBox -->
-            <RowDefinition Height="*"/>
-            <!-- Frame-ul principal -->
-        </Grid.RowDefinitions>
-
-        <!-- Titlul (Grid.Row="0") -->
-        <Grid Grid.Row="0" Panel.ZIndex="0" Grid.Column="0" Background="#FF202020" Height="32"
-      VerticalAlignment="Top" MouseLeftButtonDown="TitleBar_MouseDown">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="90"/>
-                <!-- Spațiu fix pentru butoane -->
-            </Grid.ColumnDefinitions>
-
-            <!-- Logo + Titlu -->
-            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,5,0">
-                <Image Source="Images/Windows_Calculator_icon.ico" Height="20" Width="20"/>
-                <TextBlock Text="Calculator" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
-            </StackPanel>
-
-            <!-- Butoanele pentru ferestre -->
-            <Grid Grid.Column="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="30"/>
-                </Grid.ColumnDefinitions>
-
-                <Button Click="Minimize_Click" ToolTip="Minimize" Background="Transparent" BorderThickness="0" Padding="0"
-                Width="30" Height="32" Grid.Column="0">
-                    <TextBlock Text="-" FontSize="18" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </Button>
-
-                <Button Click="Maximize_Click" ToolTip="Maximize" Background="Transparent" BorderThickness="0" Padding="0"
-                Width="30" Height="32" Grid.Column="1">
-                    <TextBlock Text="□" FontSize="15" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </Button>
-
-                <Button Click="Close_Click" ToolTip="Close" Background="Transparent" BorderThickness="0" Padding="0"
-                Width="30" Height="32" Grid.Column="2">
-                    <TextBlock Text="✖" FontSize="12" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </Button>
-            </Grid>
-        </Grid>
-
-        <!-- Butoane și ComboBox (Grid.Row="1") -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Height="55" VerticalAlignment="Top" Background="Transparent">
-            <Button x:Name="Standard" Content="Standard" Width="100" Height="30" Click="Standard_Click" Margin="10,0,0,0"/>
-            <Button x:Name="Programmer" Content="Programmer" Width="100" Height="30" Click="Programmer_Click" Margin="10,0,0,0"/>
-            <ComboBox x:Name="Combo" SelectedIndex="0" SelectionChanged="Combo_SelectionChanged" Width="120" Height="30" Margin="10,0,0,0">
-                <ComboBoxItem Content="Standard"/>
-                <ComboBoxItem Content="Programator"/>
-            </ComboBox>
-        </StackPanel>
-
-        <!-- Frame principal (Grid.Row="2") -->
-        <Frame Grid.Row="2" x:Name="Main" NavigationUIVisibility="Hidden"/>
-
+        <TextBox Text="{Binding Display, UpdateSourceTrigger=PropertyChanged}" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10" Height="50" IsReadOnly="True"/>
+        <UniformGrid Rows="5" Columns="4" Margin="10,70,10,10">
+            <Button Command="{Binding ButtonCommand}" CommandParameter="7" Content="7" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="8" Content="8" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="9" Content="9" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="/" Content="/" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="4" Content="4" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="5" Content="5" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="6" Content="6" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="*" Content="*" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="1" Content="1" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="2" Content="2" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="3" Content="3" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="-" Content="-" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="0" Content="0" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="." Content="." FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="=" Content="=" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="+" Content="+" FontSize="24"/>
+            <Button Command="{Binding ButtonCommand}" CommandParameter="C" Content="C" FontSize="24" Grid.ColumnSpan="2"/>
+        </UniformGrid>
     </Grid>
 </Window>

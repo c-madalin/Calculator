@@ -56,7 +56,7 @@
                     </Style>
                 </MenuItem.ItemContainerStyle>
 
-                <MenuItem Header="About" />
+                <MenuItem Header="About" Click="About_Click" />
             </MenuItem>
         </Menu>
     </Grid>
