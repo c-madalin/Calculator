@@ -7,36 +7,29 @@
              mc:Ignorable="d" 
              d:DesignHeight="20" d:DesignWidth="450">
     <UserControl.Resources>
-        <Style TargetType="Menu" >
+        <Style TargetType="Menu">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="#FF202020"/>
-            
         </Style>
-       
-
-
     </UserControl.Resources>
 
-    <Grid >
+    <Grid>
         <Menu Grid.Row="0">
-            
-            <MenuItem Header="File" >
+            <MenuItem Header="File">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="MenuItem">
                         <Setter Property="Foreground" Value="Black"/>
                         <Setter Property="Background" Value="White"/>
                     </Style>
                 </MenuItem.ItemContainerStyle>
-
-                <MenuItem Name="Drop" Header="Cut" InputGestureText="Ctrl+X"  />
+                <MenuItem Name="Drop" Header="Cut" InputGestureText="Ctrl+X"/>
                 <MenuItem Header="Copy" InputGestureText="Ctrl+C"/>
                 <MenuItem Header="Paste" InputGestureText="Ctrl+V"/>
                 <Separator/>
-                <MenuItem Header="Digit Grouping" IsCheckable="True"  />
+                <MenuItem Header="Digit Grouping" IsCheckable="True"/>
                 <Separator/>
-                <MenuItem Header="Exit" />
+                <MenuItem Header="Exit"/>
             </MenuItem>
-            
             <MenuItem Header="View">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="MenuItem">
@@ -44,9 +37,8 @@
                         <Setter Property="Background" Value="White"/>
                     </Style>
                 </MenuItem.ItemContainerStyle>
-
                 <MenuItem Header="Standard" Click="Standard_Click"/>
-                <MenuItem Header="Programmer"  Click="Programmer_Click"/>
+                <MenuItem Header="Programmer" Click="Programmer_Click"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem.ItemContainerStyle>
@@ -55,8 +47,7 @@
                         <Setter Property="Background" Value="White"/>
                     </Style>
                 </MenuItem.ItemContainerStyle>
-
-                <MenuItem Header="About" Click="About_Click" />
+                <MenuItem Header="About" Click="About_Click"/>
             </MenuItem>
         </Menu>
     </Grid>

@@ -17,11 +17,4 @@
     <Resource Include="Images\Windows_Calculator_icon.ico" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="MVVM\" />
-    <Folder Include="ViewModel\" />
-    <Folder Include="View\" />
-  </ItemGroup>
-
 </Project>

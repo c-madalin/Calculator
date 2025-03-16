@@ -1,0 +1,22 @@
+﻿<Window x:Class="Calculator2.MemoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Memory" Height="400" Width="300">
+    <Grid>
+        <ListView Name="MemoryListView" Margin="10">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding}" Width="100" VerticalAlignment="Center"/>
+                        <Button Content="MC" Command="{Binding DataContext.MemoryClearCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" Width="50" Margin="5,0"/>
+                        <Button Content="M+" Command="{Binding DataContext.MemoryAddCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" Width="50" Margin="5,0"/>
+                        <Button Content="M-" Command="{Binding DataContext.MemorySubtractCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" Width="50" Margin="5,0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Window>

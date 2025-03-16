@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows;
 
 namespace Calculator2
 {
@@ -31,20 +33,43 @@ namespace Calculator2
         {
             if (parameter == null) return;
 
-            if (parameter == "C")
+            switch (parameter)
             {
-                _model.Clear();
-            }
-            else if (parameter == "=")
-            {
-                _model.Calculate();
-            }
-            else
-            {
-                _model.Append(parameter);
+                case "C":
+                    _model.Clear();
+                    break;
+                case "=":
+                    _model.Calculate();
+                    break;
+                case "M+":
+                    _model.MemoryAdd();
+                    break;
+                case "M-":
+                    _model.MemorySubtract();
+                    break;
+                case "MS":
+                    _model.MemoryStore();
+                    break;
+                case "MR":
+                    _model.MemoryRecall();
+                    break;
+                case "M>":
+                    OpenMemoryWindow();
+                    break;
+                default:
+                    _model.Append(parameter);
+                    break;
             }
 
             Display = _model.Display;
+        }
+
+        private void OpenMemoryWindow()
+        {
+            var memoryStack = _model.GetMemoryStack();
+            var currentDisplayValue = double.TryParse(Display, out double value) ? value : 0;
+            MemoryWindow memoryWindow = new MemoryWindow(memoryStack, currentDisplayValue);
+            memoryWindow.Show();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

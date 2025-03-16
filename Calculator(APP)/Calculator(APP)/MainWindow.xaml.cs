@@ -11,7 +11,7 @@ namespace Calculator_APP_
         {
             InitializeComponent();
             Main.Content = new StandardPage();
-            MenuBar menuBar = this.FindName("MenuBar") as MenuBar;
+            MenuBar? menuBar = this.FindName("MenuBar") as MenuBar;
             if (menuBar != null)
             {
                 menuBar.PageChanged += ChangePage;
