@@ -1,21 +1,19 @@
-﻿using System;
-
-namespace Calculator_APP_
+﻿namespace Calculator_APP_
 {
     public class CalculatorModel
     {
         private double _currentValue;
-        private string? _operation;
-        private double _lastNumber; // Ultimul număr utilizat în operație
-        private string? _lastOperation; // Ultima operație efectuată
+        private string _operation;
+        private double _lastNumber;
+        private string _lastOperation;
 
         public double Result { get; private set; }
-        private bool isRepeatedEqual = false; // Indică dacă "=" a fost apăsat consecutiv
+        private bool isRepeatedEqual = false;
 
         public void SetOperation(string operation)
         {
             _operation = operation;
-            isRepeatedEqual = false; // Resetăm flag-ul "="
+            isRepeatedEqual = false;
         }
 
         public void SetNumber(double number)
@@ -28,14 +26,14 @@ namespace Calculator_APP_
             {
                 _currentValue = number;
                 CalculateResult();
-                _lastNumber = number; // Memorăm numărul pentru repetare
-                _lastOperation = _operation; // Memorăm ultima operație
+                _lastNumber = number;
+                _lastOperation = _operation;
             }
         }
 
         public void CalculateResult()
         {
-            if (_operation == null) // Dacă "=" a fost apăsat consecutiv, repetăm ultima operație
+            if (_operation == null)
             {
                 if (_lastOperation != null)
                 {
@@ -63,10 +61,45 @@ namespace Calculator_APP_
                     if (_currentValue != 0)
                         Result /= _currentValue;
                     break;
+                case "%":
+                    Result = (Result / 100) * _currentValue;
+                    break;
+                case "√":
+                    Result = Math.Sqrt(Result);
+                    break;
+                case "x²":
+                    Result = Result * Result;
+                    break;
+                case "1/x":
+                    if (Result != 0)
+                        Result = 1 / Result;
+                    break;
+                case "+/-":
+                    Result = -Result;
+                    break;
             }
 
-            _operation = null; // Resetăm operația pentru a permite repetarea la "="
-            isRepeatedEqual = true; // Marcăm că "=" a fost apăsat
+            _operation = null;
+            isRepeatedEqual = true;
+        }
+
+        public void Clear()
+        {
+            Result = 0;
+            _currentValue = 0;
+            _lastNumber = 0;
+            _operation = null;
+            _lastOperation = null;
+        }
+
+        public void ClearEntry()
+        {
+            _currentValue = 0;
+        }
+
+        public void Backspace()
+        {
+            Result = (int)(Result / 10);
         }
     }
 }

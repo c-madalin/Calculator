@@ -30,46 +30,38 @@ namespace Calculator_APP_
         }
 
         public ICommand AddCommand { get; }
-        public ICommand DivideCommand { get; }
-        public ICommand MinusCommand { get; }
+        public ICommand SubtractCommand { get; }
         public ICommand MultiplyCommand { get; }
+        public ICommand DivideCommand { get; }
         public ICommand EqualsCommand { get; }
         public ICommand NumberCommand { get; }
+        public ICommand ClearCommand { get; }
+        public ICommand ClearEntryCommand { get; }
+        public ICommand BackspaceCommand { get; }
+        public ICommand PercentCommand { get; }
+        public ICommand SquareRootCommand { get; }
+        public ICommand SquareCommand { get; }
+        public ICommand ReciprocalCommand { get; }
+        public ICommand PlusMinusCommand { get; }
 
         public CalculatorViewModel()
         {
             _calculatorModel = new CalculatorModel();
             AddCommand = new RelayCommand(ExecuteAdd);
+            SubtractCommand = new RelayCommand(ExecuteSubtract);
+            MultiplyCommand = new RelayCommand(ExecuteMultiply);
+            DivideCommand = new RelayCommand(ExecuteDivide);
             EqualsCommand = new RelayCommand(ExecuteEquals);
             NumberCommand = new RelayCommand<string>(ExecuteNumber);
-            MinusCommand = new RelayCommand(ExecuteMinus);
-            DivideCommand = new RelayCommand(ExecuteDivide);
-            MultiplyCommand = new RelayCommand(ExecuteMultiply);
+            ClearCommand = new RelayCommand(ExecuteClear);
+            ClearEntryCommand = new RelayCommand(ExecuteClearEntry);
+            BackspaceCommand = new RelayCommand(ExecuteBackspace);
+            PercentCommand = new RelayCommand(ExecutePercent);
+            SquareRootCommand = new RelayCommand(ExecuteSquareRoot);
+            SquareCommand = new RelayCommand(ExecuteSquare);
+            ReciprocalCommand = new RelayCommand(ExecuteReciprocal);
+            PlusMinusCommand = new RelayCommand(ExecutePlusMinus);
             CurrentInput = string.Empty;
-        }
-
-        private void ExecuteDivide(object obj)
-        {
-            PerformIntermediateCalculation();
-            _calculatorModel.SetOperation("/");
-            CurrentInput = string.Empty;
-            LastOperation = $"{_calculatorModel.Result} /";
-        }
-
-        private void ExecuteMultiply(object obj)
-        {
-            PerformIntermediateCalculation();
-            _calculatorModel.SetOperation("*");
-            CurrentInput = string.Empty;
-            LastOperation = $"{_calculatorModel.Result} *";
-        }
-
-        private void ExecuteMinus(object parameter)
-        {
-            PerformIntermediateCalculation();
-            _calculatorModel.SetOperation("-");
-            CurrentInput = string.Empty;
-            LastOperation = $"{_calculatorModel.Result} -";
         }
 
         private void ExecuteAdd(object parameter)
@@ -80,13 +72,28 @@ namespace Calculator_APP_
             LastOperation = $"{_calculatorModel.Result} +";
         }
 
-        private void PerformIntermediateCalculation()
+        private void ExecuteSubtract(object parameter)
         {
-            if (double.TryParse(CurrentInput, out double num))
-            {
-                _calculatorModel.SetNumber(num);
-                CurrentInput = _calculatorModel.Result.ToString();
-            }
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("-");
+            CurrentInput = string.Empty;
+            LastOperation = $"{_calculatorModel.Result} -";
+        }
+
+        private void ExecuteMultiply(object parameter)
+        {
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("*");
+            CurrentInput = string.Empty;
+            LastOperation = $"{_calculatorModel.Result} *";
+        }
+
+        private void ExecuteDivide(object parameter)
+        {
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("/");
+            CurrentInput = string.Empty;
+            LastOperation = $"{_calculatorModel.Result} /";
         }
 
         private void ExecuteEquals(object parameter)
@@ -109,6 +116,83 @@ namespace Calculator_APP_
             else
             {
                 CurrentInput += number;
+            }
+        }
+
+        private void ExecuteClear(object parameter)
+        {
+            _calculatorModel.Clear();
+            CurrentInput = string.Empty;
+            LastOperation = string.Empty;
+        }
+
+        private void ExecuteClearEntry(object parameter)
+        {
+            _calculatorModel.ClearEntry();
+            CurrentInput = string.Empty;
+        }
+
+        private void ExecuteBackspace(object parameter)
+        {
+            if (CurrentInput.Length > 0)
+            {
+                CurrentInput = CurrentInput.Substring(0, CurrentInput.Length - 1);
+            }
+        }
+
+        private void ExecutePercent(object parameter)
+        {
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("%");
+            CurrentInput = string.Empty;
+            LastOperation = $"{_calculatorModel.Result} %";
+        }
+
+        private void ExecuteSquareRoot(object parameter)
+        {
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("√");
+            _calculatorModel.CalculateResult();
+            CurrentInput = _calculatorModel.Result.ToString();
+            LastOperation = $"√{_calculatorModel.Result}";
+        }
+
+        private void ExecuteSquare(object parameter)
+        {
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("x²");
+            _calculatorModel.CalculateResult();
+            CurrentInput = _calculatorModel.Result.ToString();
+            LastOperation = $"{_calculatorModel.Result}²";
+        }
+
+        private void ExecuteReciprocal(object parameter)
+        {
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("1/x");
+            _calculatorModel.CalculateResult();
+            CurrentInput = _calculatorModel.Result.ToString();
+            LastOperation = $"1/{_calculatorModel.Result}";
+        }
+
+        private void ExecutePlusMinus(object parameter)
+        {
+            if (double.TryParse(CurrentInput, out double num))
+            {
+                _calculatorModel.SetNumber(num);
+                _calculatorModel.SetOperation("+/-");
+                _calculatorModel.CalculateResult();
+                CurrentInput = _calculatorModel.Result.ToString();
+                LastOperation = $"±{_calculatorModel.Result}";
+            }
+        }
+
+        private void PerformIntermediateCalculation()
+        {
+            if (double.TryParse(CurrentInput, out double num))
+            {
+                _calculatorModel.SetNumber(num);
+                CurrentInput = _calculatorModel.Result.ToString();
             }
         }
 

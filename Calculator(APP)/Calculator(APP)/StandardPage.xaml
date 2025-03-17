@@ -35,6 +35,7 @@
                      TextAlignment="Right" Padding="-3,0,0,0" 
                      Text="{Binding CurrentInput}"/>
         </Grid>
+
         <Grid VerticalAlignment="Stretch" Grid.Row="1" Margin="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -71,32 +72,32 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="Button_Percent" Content="%" Grid.Row="0" Grid.Column="0" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
-            <Button x:Name="Button_CE"      Content="CE" Grid.Row="0" Grid.Column="1" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
+            <Button x:Name="Button_Percent" Content="%" Grid.Row="0" Grid.Column="0" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding PercentCommand}"/>
+            <Button x:Name="Button_CE"      Content="CE" Grid.Row="0" Grid.Column="1" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding ClearEntryCommand}"/>
             <Button x:Name="Button_Clear"   Content="C" Grid.Row="0" Grid.Column="2" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding ClearCommand}"/>
-            <Button x:Name="Button_DEL"     Content="DEL" Grid.Row="0" Grid.Column="3" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
+            <Button x:Name="Button_DEL"     Content="DEL" Grid.Row="0" Grid.Column="3" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding BackspaceCommand}"/>
 
-            <Button x:Name="Button_Reciprocal" Content="1/x" Grid.Row="1" Grid.Column="0" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
-            <Button x:Name="Button_Square"     Content="x²" Grid.Row="1" Grid.Column="1" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
-            <Button x:Name="Button_SquareRoot" Content="√x" Grid.Row="1" Grid.Column="2" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
+            <Button x:Name="Button_Reciprocal" Content="1/x" Grid.Row="1" Grid.Column="0" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding ReciprocalCommand}"/>
+            <Button x:Name="Button_Square"     Content="x²" Grid.Row="1" Grid.Column="1" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding SquareCommand}"/>
+            <Button x:Name="Button_SquareRoot" Content="√x" Grid.Row="1" Grid.Column="2" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding SquareRootCommand}"/>
             <Button x:Name="Button_Divide"     Content="÷" Grid.Row="1" Grid.Column="3" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding DivideCommand}" />
 
             <Button x:Name="Button_7" Content="7" Grid.Row="2" Grid.Column="0" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding NumberCommand}" CommandParameter="7"/>
             <Button x:Name="Button_8" Content="8" Grid.Row="2" Grid.Column="1" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding NumberCommand}" CommandParameter="8"/>
             <Button x:Name="Button_9" Content="9" Grid.Row="2" Grid.Column="2" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding NumberCommand}" CommandParameter="9"/>
-            <Button x:Name="Button_Multiply" Content="*" Grid.Row="2" Grid.Column="3" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding MultiplyCommand}" />
+            <Button x:Name="Button_Multiply" Content="*" Grid.Row="2" Grid.Column="3" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding MultiplyCommand}"/>
 
             <Button x:Name="Button_4" Content="4" Grid.Row="3" Grid.Column="0" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding NumberCommand}" CommandParameter="4"/>
             <Button x:Name="Button_5" Content="5" Grid.Row="3" Grid.Column="1" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding NumberCommand}" CommandParameter="5"/>
             <Button x:Name="Button_6" Content="6" Grid.Row="3" Grid.Column="2" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding NumberCommand}" CommandParameter="6"/>
-            <Button x:Name="Button_Subtract" Content="-" Grid.Row="3" Grid.Column="3" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding MinusCommand}"/>
+            <Button x:Name="Button_Subtract" Content="-" Grid.Row="3" Grid.Column="3" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding SubtractCommand}"/>
 
             <Button x:Name="Button_1" Content="1" Grid.Row="4" Grid.Column="0" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding NumberCommand}" CommandParameter="1"/>
             <Button x:Name="Button_2" Content="2" Grid.Row="4" Grid.Column="1" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding NumberCommand}" CommandParameter="2"/>
             <Button x:Name="Button_3" Content="3" Grid.Row="4" Grid.Column="2" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding NumberCommand}" CommandParameter="3"/>
             <Button x:Name="Button_Add" Content="+" Grid.Row="4" Grid.Column="3" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding AddCommand}"/>
 
-            <Button x:Name="Button_PlusMinus" Content="+/-" Grid.Row="5" Grid.Column="0" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2"/>
+            <Button x:Name="Button_PlusMinus" Content="+/-" Grid.Row="5" Grid.Column="0" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding PlusMinusCommand}"/>
             <Button x:Name="Button_0" Content="0" Grid.Row="5" Grid.Column="1" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding NumberCommand}" CommandParameter="0"/>
             <Button x:Name="Button_Dot" Content="." Grid.Row="5" Grid.Column="2" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2" Command="{Binding NumberCommand}" CommandParameter="."/>
             <Button x:Name="Button_Equals" Content="=" Grid.Row="5" Grid.Column="3" FontSize="24" Background="#ff9e" BorderBrush="Black" BorderThickness="2" Margin="1" Foreground="White" Command="{Binding EqualsCommand}"/>
