@@ -7,92 +7,76 @@ namespace Calculator2
     {
         private CalculatorModel _calculatorModel;
 
-        private string _number1;
-        public string Number1
+        private string _currentInput;
+        public string CurrentInput
         {
-            get { return _number1; }
+            get { return _currentInput; }
             set
             {
-                _number1 = value;
-                OnPropertyChanged(nameof(Number1));
-            }
-        }
-
-        private string _number2;
-        public string Number2
-        {
-            get { return _number2; }
-            set
-            {
-                _number2 = value;
-                OnPropertyChanged(nameof(Number2));
-            }
-        }
-
-        private double _result;
-        public double Result
-        {
-            get { return _result; }
-            set
-            {
-                _result = value;
-                OnPropertyChanged(nameof(Result));
+                _currentInput = value;
+                OnPropertyChanged(nameof(CurrentInput));
             }
         }
 
         public ICommand AddCommand { get; }
+        public ICommand DivideCommand { get; }
         public ICommand MinusCommand { get; }
+        public ICommand EqualsCommand { get; }
         public ICommand NumberCommand { get; }
 
         public CalculatorViewModel()
         {
             _calculatorModel = new CalculatorModel();
-            AddCommand = new RelayCommand(ExecuteAdd, CanExecuteAdd);
-            MinusCommand = new RelayCommand(ExecuteMinus, CanExecuteMinus);
+            AddCommand = new RelayCommand(ExecuteAdd);
+            EqualsCommand = new RelayCommand(ExecuteEquals);
             NumberCommand = new RelayCommand<string>(ExecuteNumber);
-            Number1 = string.Empty;
-            Number2 = string.Empty;
+            MinusCommand = new RelayCommand(ExecuteMinus);
+            DivideCommand = new RelayCommand(ExecuteDivide);
+            CurrentInput = string.Empty;
         }
 
-        private void ExecuteAdd(object parameter)
+        private void ExecuteDivide(object obj)
         {
-            if (double.TryParse(Number1, out double num1) && double.TryParse(Number2, out double num2))
-            {
-                _calculatorModel.Add(num1, num2);
-                Result = _calculatorModel.Result;
-            }
-        }
-
-        private bool CanExecuteAdd(object parameter)
-        {
-            return true; // Poți adăuga logica de validare aici
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("/");
+            CurrentInput = string.Empty;
         }
 
         private void ExecuteMinus(object parameter)
         {
-            if (double.TryParse(Number1, out double num1) && double.TryParse(Number2, out double num2))
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("-");
+            CurrentInput = string.Empty;
+        }
+
+        private void ExecuteAdd(object parameter)
+        {
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("+");
+            CurrentInput = string.Empty;
+        }
+
+        private void PerformIntermediateCalculation()
+        {
+            if (double.TryParse(CurrentInput, out double num))
             {
-                _calculatorModel.Minus(num1, num2);
-                Result = _calculatorModel.Result;
+                _calculatorModel.SetNumber(num);
+                CurrentInput = _calculatorModel.Result.ToString();
             }
         }
 
-        private bool CanExecuteMinus(object parameter)
+  
+        private void ExecuteEquals(object parameter)
         {
-            return true; // Poți adăuga logica de validare aici
+            PerformIntermediateCalculation();
+
         }
+
+
 
         private void ExecuteNumber(string number)
         {
-            // Concatenate the number to the appropriate TextBox
-            if (string.IsNullOrEmpty(Number2))
-            {
-                Number1 += number;
-            }
-            else
-            {
-                Number2 += number;
-            }
+            CurrentInput += number;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
