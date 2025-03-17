@@ -3,27 +3,25 @@ using System.Windows.Input;
 
 namespace Calculator_APP_
 {
-    using System.Windows.Input;
-
     public class RelayCommand : ICommand
     {
-        private Action execute;
-        private Func<bool> canExecute;
+        private readonly Action<object> execute;
+        private readonly Predicate<object> canExecute;
 
-        public RelayCommand(Action execute, Func<bool> canExecute = null)
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)
         {
-            this.execute = execute;
+            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
             this.canExecute = canExecute;
         }
 
         public bool CanExecute(object parameter)
         {
-            return canExecute == null || canExecute();
+            return canExecute == null || canExecute(parameter);
         }
 
         public void Execute(object parameter)
         {
-            execute();
+            execute(parameter);
         }
 
         public event EventHandler CanExecuteChanged
@@ -35,18 +33,18 @@ namespace Calculator_APP_
 
     public class RelayCommand<T> : ICommand
     {
-        private Action<T> execute;
-        private Func<bool> canExecute;
+        private readonly Action<T> execute;
+        private readonly Predicate<T> canExecute;
 
-        public RelayCommand(Action<T> execute, Func<bool> canExecute = null)
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute = null)
         {
-            this.execute = execute;
+            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
             this.canExecute = canExecute;
         }
 
         public bool CanExecute(object parameter)
         {
-            return canExecute == null || canExecute();
+            return canExecute == null || canExecute((T)parameter);
         }
 
         public void Execute(object parameter)

@@ -7,6 +7,7 @@ namespace Calculator_APP_
         private double memory;
         private double currentValue;
         private string currentOperator;
+        private double _result;
         private bool isOperatorSet;
 
         public CalculatorModel()
@@ -19,12 +20,21 @@ namespace Calculator_APP_
             get { return currentValue; }
             private set { currentValue = value; }
         }
+        public double Result
+        {
+            get { return _result; }
+            set { _result = value; }
+        }
 
         public void Clear()
         {
             currentValue = 0;
             currentOperator = string.Empty;
             isOperatorSet = false;
+        }
+        public void Add(double a, double b)
+        {
+            Result = a + b;
         }
 
         public void SetOperator(string operatorSymbol)
