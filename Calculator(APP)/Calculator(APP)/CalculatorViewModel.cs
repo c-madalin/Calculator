@@ -8,6 +8,9 @@ namespace Calculator_APP_
         private CalculatorModel _calculatorModel;
 
         private string _currentInput;
+        private string _lastOperation;
+        private string _errorMessage;
+
         public string CurrentInput
         {
             get { return _currentInput; }
@@ -18,7 +21,6 @@ namespace Calculator_APP_
             }
         }
 
-        private string _lastOperation;
         public string LastOperation
         {
             get { return _lastOperation; }
@@ -26,6 +28,16 @@ namespace Calculator_APP_
             {
                 _lastOperation = value;
                 OnPropertyChanged(nameof(LastOperation));
+            }
+        }
+
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged(nameof(ErrorMessage));
             }
         }
 
@@ -64,7 +76,7 @@ namespace Calculator_APP_
             CurrentInput = string.Empty;
         }
 
-        private void ExecuteAdd(object parameter)
+        public void ExecuteAdd(object parameter)
         {
             PerformIntermediateCalculation();
             _calculatorModel.SetOperation("+");
@@ -72,7 +84,7 @@ namespace Calculator_APP_
             LastOperation = $"{_calculatorModel.Result} +";
         }
 
-        private void ExecuteSubtract(object parameter)
+        public void ExecuteSubtract(object parameter)
         {
             PerformIntermediateCalculation();
             _calculatorModel.SetOperation("-");
@@ -80,7 +92,7 @@ namespace Calculator_APP_
             LastOperation = $"{_calculatorModel.Result} -";
         }
 
-        private void ExecuteMultiply(object parameter)
+        public void ExecuteMultiply(object parameter)
         {
             PerformIntermediateCalculation();
             _calculatorModel.SetOperation("*");
@@ -88,28 +100,44 @@ namespace Calculator_APP_
             LastOperation = $"{_calculatorModel.Result} *";
         }
 
-        private void ExecuteDivide(object parameter)
+        public void ExecuteDivide(object parameter)
         {
+            if (double.TryParse(CurrentInput, out double value) && value == 0)
+            {
+                ErrorMessage = "Eroare: Împărțire la zero!";
+                return;
+            }
+
             PerformIntermediateCalculation();
             _calculatorModel.SetOperation("/");
             CurrentInput = string.Empty;
-            LastOperation = $"{_calculatorModel.Result} /";
+            LastOperation = $"{_calculatorModel.Result} ÷";
         }
 
-        private void ExecuteEquals(object parameter)
+
+        public void ExecuteEquals(object parameter)
         {
             if (double.TryParse(CurrentInput, out double num))
             {
                 _calculatorModel.SetNumber(num);
             }
             _calculatorModel.CalculateResult();
-            CurrentInput = _calculatorModel.Result.ToString();
-            LastOperation = $"{_calculatorModel.Result}";
+            if (_calculatorModel.Error != null)
+            {
+                ErrorMessage = _calculatorModel.Error;
+                CurrentInput = "Error";
+            }
+            else
+            {
+                CurrentInput = _calculatorModel.Result.ToString();
+                LastOperation = $"{_calculatorModel.Result}";
+                ErrorMessage = null;
+            }
         }
 
-        private void ExecuteNumber(string number)
+        public void ExecuteNumber(string number)
         {
-            if (_currentInput == "0" || _currentInput == string.Empty)
+            if (_currentInput == "0" || _currentInput == string.Empty || _currentInput == "Error")
             {
                 CurrentInput = number;
             }
@@ -119,20 +147,22 @@ namespace Calculator_APP_
             }
         }
 
-        private void ExecuteClear(object parameter)
+        public void ExecuteClear(object parameter)
         {
             _calculatorModel.Clear();
             CurrentInput = string.Empty;
             LastOperation = string.Empty;
+            ErrorMessage = null;
         }
 
         private void ExecuteClearEntry(object parameter)
         {
             _calculatorModel.ClearEntry();
             CurrentInput = string.Empty;
+            ErrorMessage = null;
         }
 
-        private void ExecuteBackspace(object parameter)
+        public void ExecuteBackspace(object parameter)
         {
             if (CurrentInput.Length > 0)
             {
@@ -153,8 +183,17 @@ namespace Calculator_APP_
             PerformIntermediateCalculation();
             _calculatorModel.SetOperation("√");
             _calculatorModel.CalculateResult();
-            CurrentInput = _calculatorModel.Result.ToString();
-            LastOperation = $"√{_calculatorModel.Result}";
+            if (_calculatorModel.Error != null)
+            {
+                ErrorMessage = _calculatorModel.Error;
+                CurrentInput = "Error";
+            }
+            else
+            {
+                CurrentInput = _calculatorModel.Result.ToString();
+                LastOperation = $"√{_calculatorModel.Result}";
+                ErrorMessage = null;
+            }
         }
 
         private void ExecuteSquare(object parameter)
@@ -162,8 +201,17 @@ namespace Calculator_APP_
             PerformIntermediateCalculation();
             _calculatorModel.SetOperation("x²");
             _calculatorModel.CalculateResult();
-            CurrentInput = _calculatorModel.Result.ToString();
-            LastOperation = $"{_calculatorModel.Result}²";
+            if (_calculatorModel.Error != null)
+            {
+                ErrorMessage = _calculatorModel.Error;
+                CurrentInput = "Error";
+            }
+            else
+            {
+                CurrentInput = _calculatorModel.Result.ToString();
+                LastOperation = $"{_calculatorModel.Result}²";
+                ErrorMessage = null;
+            }
         }
 
         private void ExecuteReciprocal(object parameter)
@@ -171,8 +219,17 @@ namespace Calculator_APP_
             PerformIntermediateCalculation();
             _calculatorModel.SetOperation("1/x");
             _calculatorModel.CalculateResult();
-            CurrentInput = _calculatorModel.Result.ToString();
-            LastOperation = $"1/{_calculatorModel.Result}";
+            if (_calculatorModel.Error != null)
+            {
+                ErrorMessage = _calculatorModel.Error;
+                CurrentInput = "Error";
+            }
+            else
+            {
+                CurrentInput = _calculatorModel.Result.ToString();
+                LastOperation = $"1/{_calculatorModel.Result}";
+                ErrorMessage = null;
+            }
         }
 
         private void ExecutePlusMinus(object parameter)
@@ -182,8 +239,17 @@ namespace Calculator_APP_
                 _calculatorModel.SetNumber(num);
                 _calculatorModel.SetOperation("+/-");
                 _calculatorModel.CalculateResult();
-                CurrentInput = _calculatorModel.Result.ToString();
-                LastOperation = $"±{_calculatorModel.Result}";
+                if (_calculatorModel.Error != null)
+                {
+                    ErrorMessage = _calculatorModel.Error;
+                    CurrentInput = "Error";
+                }
+                else
+                {
+                    CurrentInput = _calculatorModel.Result.ToString();
+                    LastOperation = $"±{_calculatorModel.Result}";
+                    ErrorMessage = null;
+                }
             }
         }
 
@@ -194,6 +260,11 @@ namespace Calculator_APP_
                 _calculatorModel.SetNumber(num);
                 CurrentInput = _calculatorModel.Result.ToString();
             }
+        }
+
+        public void ProcessKeyboardInput(string input)
+        {
+            ExecuteNumber(input);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

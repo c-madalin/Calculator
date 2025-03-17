@@ -8,12 +8,14 @@
         private string _lastOperation;
 
         public double Result { get; private set; }
+        public string Error { get; private set; }
         private bool isRepeatedEqual = false;
 
         public void SetOperation(string operation)
         {
             _operation = operation;
             isRepeatedEqual = false;
+            Error = null; // Resetăm mesajul de eroare
         }
 
         public void SetNumber(double number)
@@ -58,20 +60,27 @@
                     Result *= _currentValue;
                     break;
                 case "/":
-                    if (_currentValue != 0)
+                    if (_currentValue == 0)
+                        Error = "Cannot divide by zero";
+                    else
                         Result /= _currentValue;
                     break;
                 case "%":
-                    Result = (Result / 100) * _currentValue;
+                    Result = (Result * _currentValue) / 100;
                     break;
                 case "√":
-                    Result = Math.Sqrt(Result);
+                    if (Result < 0)
+                        Error = "Invalid input for square root";
+                    else
+                        Result = Math.Sqrt(Result);
                     break;
                 case "x²":
-                    Result = Result * Result;
+                    Result *= Result;
                     break;
                 case "1/x":
-                    if (Result != 0)
+                    if (Result == 0)
+                        Error = "Cannot divide by zero";
+                    else
                         Result = 1 / Result;
                     break;
                 case "+/-":
@@ -90,11 +99,13 @@
             _lastNumber = 0;
             _operation = null;
             _lastOperation = null;
+            Error = null;
         }
 
         public void ClearEntry()
         {
             _currentValue = 0;
+            Error = null;
         }
 
         public void Backspace()

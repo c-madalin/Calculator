@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:Calculator_APP_"
       mc:Ignorable="d" 
       d:DesignHeight="715" d:DesignWidth="450"
-      Title="StandardPage">
+      Title="StandardPage"
+      KeyDown="Page_KeyDown">
 
     <Page.DataContext>
         <local:CalculatorViewModel/>
@@ -31,7 +32,7 @@
                      Text="{Binding LastOperation, Mode=TwoWay}"/>
             <TextBox Margin="0,10,0,0" Background="Transparent" Foreground="White" 
                      Name="ResultTextBox" BorderBrush="Transparent" BorderThickness="0" 
-                     Grid.Row="1" VerticalAlignment="Top" FontSize="24" IsReadOnly="True" 
+                     Grid.Row="1" VerticalAlignment="Top" FontSize="24" 
                      TextAlignment="Right" Padding="-3,0,0,0" 
                      Text="{Binding CurrentInput}"/>
         </Grid>
