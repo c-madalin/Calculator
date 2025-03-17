@@ -4,108 +4,69 @@ namespace Calculator_APP_
 {
     public class CalculatorModel
     {
-        private double memory;
-        private double currentValue;
-        private string currentOperator;
-        private double _result;
-        private bool isOperatorSet;
+        private double _currentValue;
+        private string? _operation;
+        private double _lastNumber; // Ultimul număr utilizat în operație
+        private string? _lastOperation; // Ultima operație efectuată
 
-        public CalculatorModel()
+        public double Result { get; private set; }
+        private bool isRepeatedEqual = false; // Indică dacă "=" a fost apăsat consecutiv
+
+        public void SetOperation(string operation)
         {
-            Clear();
-        }
-        public double Result
-        {
-            get { return _result; }
-            set { _result = value; }
+            _operation = operation;
+            isRepeatedEqual = false; // Resetăm flag-ul "="
         }
 
-
-        public double CurrentValue
+        public void SetNumber(double number)
         {
-            get { return currentValue; }
-            private set { currentValue = value; }
-        }
-        public void Add(double a, double b)
-        {
-            Result = a + b;
-        }
-        public void Minus(double a, double b)
-        {
-            Result = a - b;
-        }
-        public void Clear()
-        {
-            currentValue = 0;
-            currentOperator = string.Empty;
-            isOperatorSet = false;
-        }
-
-        public void SetOperator(string operatorSymbol)
-        {
-            if (!isOperatorSet)
+            if (_operation == null)
             {
-                currentOperator = operatorSymbol;
-                isOperatorSet = true;
+                Result = number;
+            }
+            else
+            {
+                _currentValue = number;
+                CalculateResult();
+                _lastNumber = number; // Memorăm numărul pentru repetare
+                _lastOperation = _operation; // Memorăm ultima operație
             }
         }
 
-        public void Calculate(double value)
+        public void CalculateResult()
         {
-            switch (currentOperator)
+            if (_operation == null) // Dacă "=" a fost apăsat consecutiv, repetăm ultima operație
+            {
+                if (_lastOperation != null)
+                {
+                    _operation = _lastOperation;
+                    _currentValue = _lastNumber;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            switch (_operation)
             {
                 case "+":
-                    currentValue += value;
+                    Result += _currentValue;
                     break;
                 case "-":
-                    currentValue -= value;
+                    Result -= _currentValue;
                     break;
                 case "*":
-                    currentValue *= value;
+                    Result *= _currentValue;
                     break;
-                case "÷":
-                    currentValue /= value;
-                    break;
-                case "√x":
-                    currentValue = Math.Sqrt(value);
-                    break;
-                case "x²":
-                    currentValue = Math.Pow(value, 2);
-                    break;
-                case "1/x":
-                    currentValue = 1 / value;
-                    break;
-                default:
-                    currentValue = value;
+                case "/":
+                    if (_currentValue != 0)
+                        Result /= _currentValue;
                     break;
             }
 
-            isOperatorSet = false;
-        }
-
-        public void MemoryStore()
-        {
-            memory = currentValue;
-        }
-
-        public double MemoryRecall()
-        {
-            return memory;
-        }
-
-        public void MemoryClear()
-        {
-            memory = 0;
-        }
-
-        public void MemoryAdd(double value)
-        {
-            memory += value;
-        }
-
-        public void MemorySubtract(double value)
-        {
-            memory -= value;
+            _operation = null; // Resetăm operația pentru a permite repetarea la "="
+            isRepeatedEqual = true; // Marcăm că "=" a fost apăsat
         }
     }
 }

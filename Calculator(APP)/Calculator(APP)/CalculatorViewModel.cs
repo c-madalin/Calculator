@@ -1,154 +1,116 @@
 ﻿using System.ComponentModel;
-using System.Web;
 using System.Windows.Input;
 
 namespace Calculator_APP_
 {
     public class CalculatorViewModel : INotifyPropertyChanged
     {
-        private CalculatorModel _model;
-        private string _number1;
-        private string _number2;
-        private double _result;
-        private string currentDisplay = "0";
-        private string currentEquation = "";
+        private CalculatorModel _calculatorModel;
 
-
-        //public ICommand
-        public ICommand AddCommand { get; }
-        public ICommand MinusCommand { get; }
-        public ICommand NumberCommand { get; }
-        public ICommand EqualsCommand { get; }
-
-
-
-        //Constructor
-        public CalculatorViewModel()
+        private string _currentInput;
+        public string CurrentInput
         {
-            _model = new CalculatorModel();
-            AddCommand = new RelayCommand(ExecuteAdd, CanExecuteAdd);
-            // MinusCommand = new RelayCommand(Minus);
-            //NumberCommand = new RelayCommand(AddNumber);
-            NumberCommand = new RelayCommand<string>(ExecuteNumber);
-            EqualsCommand = new RelayCommand(ExecuteEquals, CanExecuteEquals);
-
-            Number1 = string.Empty;
-            Number2 = string.Empty;
-
+            get { return _currentInput; }
+            set
+            {
+                _currentInput = value;
+                OnPropertyChanged(nameof(CurrentInput));
+            }
         }
 
-        private void ExecuteNumber(string number)
+        private string _lastOperation;
+        public string LastOperation
         {
-            // Concatenate the number to the appropriate TextBox
-            if (string.IsNullOrEmpty(Number2))
+            get { return _lastOperation; }
+            set
             {
-                Number1 += number;
+                _lastOperation = value;
+                OnPropertyChanged(nameof(LastOperation));
             }
-            else
-            {
-                Number2 += number;
-            }
+        }
+
+        public ICommand AddCommand { get; }
+        public ICommand DivideCommand { get; }
+        public ICommand MinusCommand { get; }
+        public ICommand MultiplyCommand { get; }
+        public ICommand EqualsCommand { get; }
+        public ICommand NumberCommand { get; }
+
+        public CalculatorViewModel()
+        {
+            _calculatorModel = new CalculatorModel();
+            AddCommand = new RelayCommand(ExecuteAdd);
+            EqualsCommand = new RelayCommand(ExecuteEquals);
+            NumberCommand = new RelayCommand<string>(ExecuteNumber);
+            MinusCommand = new RelayCommand(ExecuteMinus);
+            DivideCommand = new RelayCommand(ExecuteDivide);
+            MultiplyCommand = new RelayCommand(ExecuteMultiply);
+            CurrentInput = string.Empty;
+        }
+
+        private void ExecuteDivide(object obj)
+        {
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("/");
+            CurrentInput = string.Empty;
+            LastOperation = $"{_calculatorModel.Result} /";
+        }
+
+        private void ExecuteMultiply(object obj)
+        {
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("*");
+            CurrentInput = string.Empty;
+            LastOperation = $"{_calculatorModel.Result} *";
+        }
+
+        private void ExecuteMinus(object parameter)
+        {
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("-");
+            CurrentInput = string.Empty;
+            LastOperation = $"{_calculatorModel.Result} -";
         }
 
         private void ExecuteAdd(object parameter)
         {
-            if (double.TryParse(Number1, out double num1) && double.TryParse(Number2, out double num2))
-            {
-                _model.Add(num1, num2);
-                Result = _model.Result;
-            }
+            PerformIntermediateCalculation();
+            _calculatorModel.SetOperation("+");
+            CurrentInput = string.Empty;
+            LastOperation = $"{_calculatorModel.Result} +";
         }
 
-        private bool CanExecuteAdd(object parameter)
+        private void PerformIntermediateCalculation()
         {
-            return true; // Poți adăuga logica de validare aici
+            if (double.TryParse(CurrentInput, out double num))
+            {
+                _calculatorModel.SetNumber(num);
+                CurrentInput = _calculatorModel.Result.ToString();
+            }
         }
 
         private void ExecuteEquals(object parameter)
         {
-            if (double.TryParse(Number1, out double num1) && double.TryParse(Number2, out double num2))
+            if (double.TryParse(CurrentInput, out double num))
             {
-                _model.Add(num1, num2); // Poți schimba logica pentru alte operațiuni
-                Result = _model.Result;
+                _calculatorModel.SetNumber(num);
             }
+            _calculatorModel.CalculateResult();
+            CurrentInput = _calculatorModel.Result.ToString();
+            LastOperation = $"{_calculatorModel.Result}";
         }
 
-       
-
-        private bool CanExecuteEquals(object parameter)
+        private void ExecuteNumber(string number)
         {
-            return true; // Poți adăuga logica de validare aici
-        }
-
-        //Properties
-        public string Number1
-        {
-            get { return _number1; }
-            set
+            if (_currentInput == "0" || _currentInput == string.Empty)
             {
-                _number1 = value;
-                OnPropertyChanged(nameof(Number1));
+                CurrentInput = number;
             }
-        }
-        public string Number2
-        {
-            get { return _number2; }
-            set
-            {
-                _number2 = value;
-                OnPropertyChanged(nameof(Number2));
-            }
-        }
-
-        public double Result
-        {
-            get { return _result; }
-            set
-            {
-                _result = value;
-                OnPropertyChanged(nameof(Result));
-            }
-        }
-
-        public string CurrentDisplay
-        {
-            get { return currentDisplay; }
-            set
-            {
-                currentDisplay = value;
-                OnPropertyChanged("CurrentDisplay");
-            }
-        }
-
-        public string CurrentEquation
-        {
-            get { return currentEquation; }
-            set
-            {
-                currentEquation = value;
-                OnPropertyChanged("CurrentEquation");
-            }
-        }
-
-
-
-
-
-        private void Clear()
-        {
-            _model.Clear();
-            CurrentDisplay = "0";
-            CurrentEquation = string.Empty;
-        }
-
-        private void AddNumber(string number)
-        {
-            if (CurrentDisplay == "0")
-                CurrentDisplay = number;
             else
-                CurrentDisplay += number;
+            {
+                CurrentInput += number;
+            }
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 
