@@ -14,27 +14,31 @@ namespace Calculator_APP_
         {
             Clear();
         }
-
-        public double CurrentValue
-        {
-            get { return currentValue; }
-            private set { currentValue = value; }
-        }
         public double Result
         {
             get { return _result; }
             set { _result = value; }
         }
 
+
+        public double CurrentValue
+        {
+            get { return currentValue; }
+            private set { currentValue = value; }
+        }
+        public void Add(double a, double b)
+        {
+            Result = a + b;
+        }
+        public void Minus(double a, double b)
+        {
+            Result = a - b;
+        }
         public void Clear()
         {
             currentValue = 0;
             currentOperator = string.Empty;
             isOperatorSet = false;
-        }
-        public void Add(double a, double b)
-        {
-            Result = a + b;
         }
 
         public void SetOperator(string operatorSymbol)

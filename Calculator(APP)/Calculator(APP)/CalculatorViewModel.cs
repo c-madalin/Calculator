@@ -18,16 +18,36 @@ namespace Calculator_APP_
         public ICommand AddCommand { get; }
         public ICommand MinusCommand { get; }
         public ICommand NumberCommand { get; }
+        public ICommand EqualsCommand { get; }
+
 
 
         //Constructor
         public CalculatorViewModel()
         {
             _model = new CalculatorModel();
-            AddCommand = new RelayCommand(ExecuteAdd);
-           // MinusCommand = new RelayCommand(Minus);
+            AddCommand = new RelayCommand(ExecuteAdd, CanExecuteAdd);
+            // MinusCommand = new RelayCommand(Minus);
             //NumberCommand = new RelayCommand(AddNumber);
+            NumberCommand = new RelayCommand<string>(ExecuteNumber);
+            EqualsCommand = new RelayCommand(ExecuteEquals, CanExecuteEquals);
 
+            Number1 = string.Empty;
+            Number2 = string.Empty;
+
+        }
+
+        private void ExecuteNumber(string number)
+        {
+            // Concatenate the number to the appropriate TextBox
+            if (string.IsNullOrEmpty(Number2))
+            {
+                Number1 += number;
+            }
+            else
+            {
+                Number2 += number;
+            }
         }
 
         private void ExecuteAdd(object parameter)
@@ -37,6 +57,27 @@ namespace Calculator_APP_
                 _model.Add(num1, num2);
                 Result = _model.Result;
             }
+        }
+
+        private bool CanExecuteAdd(object parameter)
+        {
+            return true; // Poți adăuga logica de validare aici
+        }
+
+        private void ExecuteEquals(object parameter)
+        {
+            if (double.TryParse(Number1, out double num1) && double.TryParse(Number2, out double num2))
+            {
+                _model.Add(num1, num2); // Poți schimba logica pentru alte operațiuni
+                Result = _model.Result;
+            }
+        }
+
+       
+
+        private bool CanExecuteEquals(object parameter)
+        {
+            return true; // Poți adăuga logica de validare aici
         }
 
         //Properties
@@ -89,7 +130,7 @@ namespace Calculator_APP_
             }
         }
 
-     
+
 
 
 
@@ -108,11 +149,12 @@ namespace Calculator_APP_
                 CurrentDisplay += number;
         }
 
-      
+
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name)
+
+        protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
