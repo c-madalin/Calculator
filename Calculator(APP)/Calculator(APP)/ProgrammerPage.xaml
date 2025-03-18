@@ -60,12 +60,12 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Content="MC" Grid.Column="0" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
-            <Button Content="MR" Grid.Column="1" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
-            <Button Content="M+" Grid.Column="2" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
-            <Button Content="M-" Grid.Column="3" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
-            <Button Content="MS" Grid.Column="4" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
-            <Button Content="MD" Grid.Column="5" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
+            <Button Content="MC" Click= "MemoryClearClick"  Grid.Column="0" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
+            <Button Content="MR" Click= "MemoryRecallComand" Grid.Column="1" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
+            <Button Content="M+" Click= "MemoryAddClick" Grid.Column="2" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
+            <Button Content="M-" Click= "MemorySubstractClick" Grid.Column="3" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
+            <Button Content="MS" Click= "MemorySaveClick" Grid.Column="4" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
+            <Button Content="Mv" Click= "MemoryViewClick" Grid.Column="5" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
         </Grid>
 
         <!-- Grid pentru butoane principale -->

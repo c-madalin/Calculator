@@ -166,5 +166,95 @@ namespace Calculator_APP_
             OctTextBox.Text = Convert.ToString(number, 8);
             BinTextBox.Text = Convert.ToString(number, 2);
         }
+        // Stiva de memorie
+        private Stack<double> memoryStack = new Stack<double>();
+
+    
+
+        // Funcția MS: Salvează valoarea din ResultTextBox în stiva
+        private void MemorySaveClick(object sender, RoutedEventArgs e)
+        {
+            if (double.TryParse(ResultTextBox.Text , out double value))
+            {
+                memoryStack.Push(value);  // Salvează valoarea în stiva
+            }
+            else
+            {
+                MessageBox.Show("Introduceți o valoare validă!");
+            }
+        }
+
+        // Funcția M+: Adaugă valoarea din TextBox la valoarea de la topul stivei
+        private void MemoryAddClick(object sender, RoutedEventArgs e)
+        {
+            if (memoryStack.Count > 0 && double.TryParse(ResultTextBox.Text, out double value))
+            {
+                double topValue = memoryStack.Peek();
+                memoryStack.Push(topValue + value);  // Adaugă valoarea din TextBox la topul stivei
+            }
+            else
+            {
+                MessageBox.Show("Stiva este goală sau valoare invalidă!");
+            }
+        }
+
+        // Funcția M-: Scade valoarea din TextBox de la valoarea de la topul stivei
+        private void MemorySubstractClick(object sender, RoutedEventArgs e)
+        {
+            if (memoryStack.Count > 0 && double.TryParse(ResultTextBox.Text, out double value))
+            {
+                double topValue = memoryStack.Peek();
+                memoryStack.Push(topValue - value);  // Scade valoarea din TextBox de la topul stivei
+            }
+            else
+            {
+                MessageBox.Show("Stiva este goală sau valoare invalidă!");
+            }
+        }
+
+        // Funcția MR: Schimbă valoarea din TextBox cu valoarea de la topul stivei
+        private void MemoryRecallComand(object sender, RoutedEventArgs e)
+        {
+            if (memoryStack.Count > 0)
+            {
+                ResultTextBox.Text = memoryStack.Peek().ToString();  // Setează valoarea topului stivei în TextBox
+            }
+            else
+            {
+                MessageBox.Show("Stiva este goală!");
+            }
+        }
+
+        // Funcția MC: Șterge ultima valoare din stivă
+        private void MemoryClearClick(object sender, RoutedEventArgs e)
+        {
+            if (memoryStack.Count > 0)
+            {
+                memoryStack.Pop();  // Șterge valoarea de la topul stivei
+            }
+            else
+            {
+                MessageBox.Show("Stiva este goală!");
+            }
+        }
+
+        // Funcția Mv: Afișează o fereastră nouă pentru a vizualiza valoarea stivei
+        private void MemoryViewClick(object sender, RoutedEventArgs e)
+        {
+            string memoryContent = "Stiva de memorie:\n";
+            if (memoryStack.Count > 0)
+            {
+                foreach (var item in memoryStack)
+                {
+                    memoryContent += item + "\n";
+                }
+            }
+            else
+            {
+                memoryContent = "Stiva este goală!";
+            }
+
+            MessageBox.Show(memoryContent, "Vizualizare Memorie");
+        }
     }
 }
