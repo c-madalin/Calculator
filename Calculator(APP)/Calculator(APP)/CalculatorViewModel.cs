@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace Calculator_APP_
@@ -6,10 +7,13 @@ namespace Calculator_APP_
     public class CalculatorViewModel : INotifyPropertyChanged
     {
         private CalculatorModel _calculatorModel;
+        private MemoryModel _memoryModel;
 
         private string _currentInput;
         private string _lastOperation;
         private string _errorMessage;
+        public ObservableCollection<MemoryItemViewModel> MemoryValues { get; }
+
 
         public string CurrentInput
         {
@@ -55,10 +59,18 @@ namespace Calculator_APP_
         public ICommand SquareCommand { get; }
         public ICommand ReciprocalCommand { get; }
         public ICommand PlusMinusCommand { get; }
+        public ICommand MemoryAddCommand { get; }
+        public ICommand MemorySubtractCommand { get; }
+        public ICommand MemoryStoreCommand { get; }
+        public ICommand MemoryRecallCommand { get; }
+        public ICommand MemoryViewCommand { get; }
+        public ICommand MemoryRemoveTopCommand { get; }
 
         public CalculatorViewModel()
         {
             _calculatorModel = new CalculatorModel();
+            _memoryModel = new MemoryModel();
+            MemoryValues = new ObservableCollection<MemoryItemViewModel>();
             AddCommand = new RelayCommand(ExecuteAdd);
             SubtractCommand = new RelayCommand(ExecuteSubtract);
             MultiplyCommand = new RelayCommand(ExecuteMultiply);
@@ -73,6 +85,12 @@ namespace Calculator_APP_
             SquareCommand = new RelayCommand(ExecuteSquare);
             ReciprocalCommand = new RelayCommand(ExecuteReciprocal);
             PlusMinusCommand = new RelayCommand(ExecutePlusMinus);
+            MemoryAddCommand = new RelayCommand(ExecuteMemoryAdd);
+            MemorySubtractCommand = new RelayCommand(ExecuteMemorySubtract);
+            MemoryStoreCommand = new RelayCommand(ExecuteMemoryStore);
+            MemoryRecallCommand = new RelayCommand(ExecuteMemoryRecall);
+            MemoryViewCommand = new RelayCommand(ExecuteMemoryView);
+            MemoryRemoveTopCommand = new RelayCommand(ExecuteMemoryRemoveTop);
             CurrentInput = string.Empty;
         }
 
@@ -265,6 +283,65 @@ namespace Calculator_APP_
         public void ProcessKeyboardInput(string input)
         {
             ExecuteNumber(input);
+        }
+
+
+        //memory comands
+        private void ExecuteMemoryAdd(object parameter)
+        {
+            if (double.TryParse(CurrentInput, out double num))
+            {
+                _memoryModel.AddToMemory(num);
+                RefreshMemoryValues();
+            }
+        }
+
+        private void ExecuteMemorySubtract(object parameter)
+        {
+            if (double.TryParse(CurrentInput, out double num))
+            {
+                _memoryModel.SubtractFromMemory(num);
+                RefreshMemoryValues();
+            }
+        }
+
+        private void ExecuteMemoryStore(object parameter)
+        {
+            if (double.TryParse(CurrentInput, out double num))
+            {
+                _memoryModel.StoreMemory(num);
+                RefreshMemoryValues();
+            }
+        }
+
+        private void ExecuteMemoryRecall(object parameter)
+        {
+            var memoryValue = _memoryModel.RecallMemory();
+            if (memoryValue.HasValue)
+            {
+                CurrentInput = memoryValue.Value.ToString();
+            }
+        }
+
+        private void ExecuteMemoryView(object parameter)
+        {
+            var memoryWindow = new MemoryWindow { DataContext = this };
+            memoryWindow.Show();
+        }
+
+        private void ExecuteMemoryRemoveTop(object parameter)
+        {
+            _memoryModel.RemoveTopOfMemory();
+            RefreshMemoryValues();
+        }
+
+        public void RefreshMemoryValues()
+        {
+            MemoryValues.Clear();
+            foreach (var value in _memoryModel.MemoryStack)
+            {
+                MemoryValues.Add(new MemoryItemViewModel(value, _memoryModel, this));
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
