@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -21,7 +22,7 @@ namespace Calculator2
             }
         }
 
-        public ObservableCollection<double> MemoryValues { get; }
+        public ObservableCollection<MemoryItemViewModel> MemoryValues { get; }
 
         public ICommand AddCommand { get; }
         public ICommand DivideCommand { get; }
@@ -39,7 +40,7 @@ namespace Calculator2
         {
             _calculatorModel = new CalculatorModel();
             _memoryModel = new MemoryModel();
-            MemoryValues = new ObservableCollection<double>(_memoryModel.MemoryStack);
+            MemoryValues = new ObservableCollection<MemoryItemViewModel>();
             AddCommand = new RelayCommand(ExecuteAdd);
             EqualsCommand = new RelayCommand(ExecuteEquals);
             NumberCommand = new RelayCommand<string>(ExecuteNumber);
@@ -142,12 +143,12 @@ namespace Calculator2
             RefreshMemoryValues();
         }
 
-        private void RefreshMemoryValues()
+        public void RefreshMemoryValues()
         {
             MemoryValues.Clear();
             foreach (var value in _memoryModel.MemoryStack)
             {
-                MemoryValues.Add(value);
+                MemoryValues.Add(new MemoryItemViewModel(value, _memoryModel, this));
             }
         }
 

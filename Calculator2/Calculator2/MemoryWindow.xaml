@@ -3,6 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MemoryWindow" Height="300" Width="400">
     <Grid>
-        <ListBox ItemsSource="{Binding MemoryValues}" />
+        <ListBox ItemsSource="{Binding MemoryValues}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="{Binding Value}" VerticalAlignment="Center" Margin="10"/>
+                        <Button Content="M+" Command="{Binding MemoryAddCommand}" Margin="5"/>
+                        <Button Content="M-" Command="{Binding MemorySubtractCommand}" Margin="5"/>
+                        <Button Content="MR" Command="{Binding MemoryRemoveCommand}" Margin="5"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>
