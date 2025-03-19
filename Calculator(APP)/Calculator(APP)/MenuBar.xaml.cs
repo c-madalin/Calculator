@@ -9,6 +9,8 @@ namespace Calculator_APP_
         // Definim un eveniment care va fi folosit pentru a anunța schimbarea paginii
         public event Action<Type> PageChanged;
         public event Action CopyRequested;
+        public event Action CutRequested;
+        public event Action PasteRequested;
 
         public MenuBar()
         {
@@ -33,6 +35,16 @@ namespace Calculator_APP_
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
             CopyRequested?.Invoke();
+        }
+
+        private void Cut_Click(object sender, RoutedEventArgs e)
+        {
+            CutRequested?.Invoke();
+        }
+
+        private void Paste_Click(object sender, RoutedEventArgs e)
+        {
+            PasteRequested?.Invoke();
         }
     }
 }

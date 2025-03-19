@@ -22,9 +22,9 @@
                         <Setter Property="Background" Value="White"/>
                     </Style>
                 </MenuItem.ItemContainerStyle>
-                <MenuItem Name="Drop" Header="Cut" InputGestureText="Ctrl+X"/>
+                <MenuItem Name="Drop" Header="Cut" InputGestureText="Ctrl+X" Click="Cut_Click"/>
                 <MenuItem Header="Copy" InputGestureText="Ctrl+C" Click="Copy_Click"/>
-                <MenuItem Header="Paste" InputGestureText="Ctrl+V"/>
+                <MenuItem Header="Paste" InputGestureText="Ctrl+V" Click="Paste_Click"/>
                 <Separator/>
                 <MenuItem Header="Digit Grouping" IsCheckable="True"/>
                 <Separator/>
