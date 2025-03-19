@@ -6,8 +6,10 @@
       xmlns:local="clr-namespace:Calculator_APP_"
       mc:Ignorable="d" 
       d:DesignHeight="715" d:DesignWidth="450"
-      Title="ProgrammerPage">
-
+      Title="ProgrammerPage"
+      KeyDown="Page_KeyDown"
+      DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    
     <Grid Background="Transparent">
         <!-- Definire rânduri principale -->
         <Grid.RowDefinitions>

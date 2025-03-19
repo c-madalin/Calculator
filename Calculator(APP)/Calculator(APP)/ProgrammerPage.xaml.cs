@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Calculator_APP_
 {
@@ -14,17 +16,23 @@ namespace Calculator_APP_
         private int _firstNumber = 0;
         private int _secondNumber = 0;
         private int _currentBase = 10;
-        private Stack<double> memoryStack = new Stack<double>();
+        private MemoryModel _memoryModel = new MemoryModel();
 
         public ProgrammerPage()
         {
             InitializeComponent();
-            // Set default base to binary
             BinTextBox.IsReadOnly = false;
             BinTextBox.Text = "0";
+            UpdateButtonGrid();
+
+            MemoryAddCommand = new RelayCommand(ExecuteMemoryAdd);
+            MemorySubtractCommand = new RelayCommand(ExecuteMemorySubtract);
+            MemoryStoreCommand = new RelayCommand(ExecuteMemoryStore);
+            MemoryRecallCommand = new RelayCommand(ExecuteMemoryRecall);
+            MemoryViewCommand = new RelayCommand(ExecuteMemoryView);
+            MemoryRemoveTopCommand = new RelayCommand(ExecuteMemoryRemoveTop);
         }
 
-        // Metodă pentru a adăuga cifre la input în funcție de baza curentă
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -43,7 +51,6 @@ namespace Calculator_APP_
             }
         }
 
-        // Verifică dacă un digit este valid pentru baza curentă
         private bool IsValidDigit(string digit)
         {
             try
@@ -57,7 +64,6 @@ namespace Calculator_APP_
             }
         }
 
-        // Actualizează TextBox-ul de rezultat în funcție de baza curentă
         private void UpdateResultTextBox()
         {
             ResultTextBox.Text = _currentInput;
@@ -199,92 +205,120 @@ namespace Calculator_APP_
             OctTextBox.Text = Convert.ToString(number, 8);
             BinTextBox.Text = Convert.ToString(number, 2);
         }
-       
 
-        // Funcția MS: Salvează valoarea din ResultTextBox în stiva
-        private void MemorySaveClick(object sender, RoutedEventArgs e)
+        // Memory commands
+        private void ExecuteMemoryAdd(object parameter)
         {
-            if (double.TryParse(ResultTextBox.Text, out double value))
+            if (double.TryParse(_currentInput, out double num))
             {
-                memoryStack.Push(value);  // Salvează valoarea în stiva
-            }
-            else
-            {
-                MessageBox.Show("Introduceți o valoare validă!");
+                _memoryModel.AddToMemory(num);
+                RefreshMemoryValues();
             }
         }
 
-        // Funcția M+: Adaugă valoarea din TextBox la valoarea de la topul stivei
-        private void MemoryAddClick(object sender, RoutedEventArgs e)
+        private void ExecuteMemorySubtract(object parameter)
         {
-            if (memoryStack.Count > 0 && double.TryParse(ResultTextBox.Text, out double value))
+            if (double.TryParse(_currentInput, out double num))
             {
-                double topValue = memoryStack.Peek();
-                memoryStack.Push(topValue + value);  // Adaugă valoarea din TextBox la topul stivei
-            }
-            else
-            {
-                MessageBox.Show("Stiva este goală sau valoare invalidă!");
+                _memoryModel.SubtractFromMemory(num);
+                RefreshMemoryValues();
             }
         }
 
-        // Funcția M-: Scade valoarea din TextBox de la valoarea de la topul stivei
-        private void MemorySubstractClick(object sender, RoutedEventArgs e)
+        private void ExecuteMemoryStore(object parameter)
         {
-            if (memoryStack.Count > 0 && double.TryParse(ResultTextBox.Text, out double value))
+            if (double.TryParse(_currentInput, out double num))
             {
-                double topValue = memoryStack.Peek();
-                memoryStack.Push(topValue - value);  // Scade valoarea din TextBox de la topul stivei
-            }
-            else
-            {
-                MessageBox.Show("Stiva este goală sau valoare invalidă!");
+                _memoryModel.StoreMemory(num);
+                RefreshMemoryValues();
             }
         }
 
-        // Funcția MR: Schimbă valoarea din TextBox cu valoarea de la topul stivei
-        private void MemoryRecallComand(object sender, RoutedEventArgs e)
+        private void ExecuteMemoryRecall(object parameter)
         {
-            if (memoryStack.Count > 0)
+            var memoryValue = _memoryModel.RecallMemory();
+            if (memoryValue.HasValue)
             {
-                ResultTextBox.Text = memoryStack.Peek().ToString();  // Setează valoarea topului stivei în TextBox
-            }
-            else
-            {
-                MessageBox.Show("Stiva este goală!");
+                _currentInput = memoryValue.Value.ToString();
+                UpdateResultTextBox();
             }
         }
 
-        // Funcția MC: Șterge ultima valoare din stivă
-        private void MemoryClearClick(object sender, RoutedEventArgs e)
+        private void ExecuteMemoryView(object parameter)
         {
-            if (memoryStack.Count > 0)
-            {
-                memoryStack.Pop();  // Șterge valoarea de la topul stivei
-            }
-            else
-            {
-                MessageBox.Show("Stiva este goală!");
-            }
+            var memoryWindow = new MemoryWindow { DataContext = this };
+            memoryWindow.Show();
         }
 
-        // Funcția Mv: Afișează o fereastră nouă pentru a vizualiza valoarea stivei
-        private void MemoryViewClick(object sender, RoutedEventArgs e)
+        private void ExecuteMemoryRemoveTop(object parameter)
         {
-            string memoryContent = "Stiva de memorie:\n";
-            if (memoryStack.Count > 0)
-            {
-                foreach (var item in memoryStack)
-                {
-                    memoryContent += item + "\n";
-                }
-            }
-            else
-            {
-                memoryContent = "Stiva este goală!";
-            }
+            _memoryModel.RemoveTopOfMemory();
+            RefreshMemoryValues();
+        }
 
-            MessageBox.Show(memoryContent, "Vizualizare Memorie");
+        public void RefreshMemoryValues()
+        {
+            // Refresh logic for memory values
+            // This could update UI elements or internal properties
+        }
+
+        // Initialize memory commands
+        public ICommand MemoryAddCommand { get; }
+        public ICommand MemorySubtractCommand { get; }
+        public ICommand MemoryStoreCommand { get; }
+        public ICommand MemoryRecallCommand { get; }
+        public ICommand MemoryViewCommand { get; }
+        public ICommand MemoryRemoveTopCommand { get; }
+
+        // Event handlers for memory buttons
+        private void MemoryClearClick(object sender, RoutedEventArgs e) => ExecuteMemoryRemoveTop(null);
+        private void MemoryRecallComand(object sender, RoutedEventArgs e) => ExecuteMemoryRecall(null);
+        private void MemoryAddClick(object sender, RoutedEventArgs e) => ExecuteMemoryAdd(null);
+        private void MemorySubstractClick(object sender, RoutedEventArgs e) => ExecuteMemorySubtract(null);
+        private void MemorySaveClick(object sender, RoutedEventArgs e) => ExecuteMemoryStore(null);
+        private void MemoryViewClick(object sender, RoutedEventArgs e) => ExecuteMemoryView(null);
+
+        // Handle keyboard input
+        private void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key >= Key.D0 && e.Key <= Key.D9)
+            {
+                string digit = (e.Key - Key.D0).ToString();
+                Button_Click(new Button { Content = digit }, null);
+            }
+            else if (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+            {
+                string digit = (e.Key - Key.NumPad0).ToString();
+                Button_Click(new Button { Content = digit }, null);
+            }
+            else if (e.Key == Key.Add)
+            {
+                Operator_Click(new Button { Content = "+" }, null);
+            }
+            else if (e.Key == Key.Subtract)
+            {
+                Operator_Click(new Button { Content = "-" }, null);
+            }
+            else if (e.Key == Key.Multiply)
+            {
+                Operator_Click(new Button { Content = "*" }, null);
+            }
+            else if (e.Key == Key.Divide)
+            {
+                Operator_Click(new Button { Content = "/" }, null);
+            }
+            else if (e.Key == Key.Enter)
+            {
+                Equals_Click(null, null);
+            }
+            else if (e.Key == Key.Back)
+            {
+                Delete_Click(null, null);
+            }
+            else if (e.Key == Key.Escape)
+            {
+                Clear_Click(null, null);
+            }
         }
     }
 }
