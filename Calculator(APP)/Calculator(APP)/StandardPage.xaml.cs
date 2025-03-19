@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Calculator_APP_
@@ -59,6 +60,15 @@ namespace Calculator_APP_
                 }
             }
             e.Handled = true;
+        }
+
+        // Adăugăm metoda TextBox_SelectionChanged
+        private void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                MainWindow.SelectedText = textBox.SelectedText;
+            }
         }
     }
 }

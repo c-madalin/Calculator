@@ -8,6 +8,7 @@ namespace Calculator_APP_
     {
         // Definim un eveniment care va fi folosit pentru a anunța schimbarea paginii
         public event Action<Type> PageChanged;
+        public event Action CopyRequested;
 
         public MenuBar()
         {
@@ -23,9 +24,15 @@ namespace Calculator_APP_
         {
             PageChanged?.Invoke(typeof(ProgrammerPage));
         }
+
         private void About_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Calculator WPF\nCreated by: [Cazan Madalin Cristian]\nGroup: [10LF331]", "About");
+        }
+
+        private void Copy_Click(object sender, RoutedEventArgs e)
+        {
+            CopyRequested?.Invoke();
         }
     }
 }
