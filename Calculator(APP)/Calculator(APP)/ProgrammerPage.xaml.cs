@@ -14,6 +14,7 @@ namespace Calculator_APP_
         private int _firstNumber = 0;
         private int _secondNumber = 0;
         private int _currentBase = 10;
+        private Stack<double> memoryStack = new Stack<double>();
 
         public ProgrammerPage()
         {
@@ -35,14 +36,25 @@ namespace Calculator_APP_
                     _currentInput += digit;
                     UpdateResultTextBox();
                 }
+                else
+                {
+                    MessageBox.Show($"Digit '{digit}' is not valid for base {_currentBase}.", "Invalid Digit", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
         // Verifică dacă un digit este valid pentru baza curentă
         private bool IsValidDigit(string digit)
         {
-            int value = Convert.ToInt32(digit, _currentBase);
-            return value >= 0 && value < _currentBase;
+            try
+            {
+                int value = Convert.ToInt32(digit, _currentBase);
+                return value >= 0 && value < _currentBase;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
         }
 
         // Actualizează TextBox-ul de rezultat în funcție de baza curentă
@@ -77,12 +89,22 @@ namespace Calculator_APP_
         // Șterge tot
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
+            ClearAll();
+        }
+
+        // Adaugă o metodă pentru resetarea completă a calculatorului
+        private void ClearAll()
+        {
             _currentInput = string.Empty;
             _firstNumber = 0;
             _secondNumber = 0;
             _operator = string.Empty;
             ResultTextBox.Text = string.Empty;
             PreviousTextBox.Text = string.Empty;
+            HexTextBox.Text = string.Empty;
+            DecTextBox.Text = string.Empty;
+            OctTextBox.Text = string.Empty;
+            BinTextBox.Text = string.Empty;
         }
 
         // Efectuează conversia în baza curentă și afișează rezultatul
@@ -147,6 +169,7 @@ namespace Calculator_APP_
             if (radioButton != null)
             {
                 _currentBase = int.Parse(radioButton.Tag.ToString());
+                ClearAll();
                 UpdateButtonGrid();
             }
         }
@@ -154,8 +177,18 @@ namespace Calculator_APP_
         // Actualizează butoanele disponibile în funcție de baza curentă
         private void UpdateButtonGrid()
         {
-            // Implementați logica pentru a actualiza butoanele disponibile în funcție de baza curentă
-            // De exemplu, dezactivați butoanele 2-9 pentru baza binară, 8-9 pentru baza octală, etc.
+            foreach (Button button in ButtonGrid.Children)
+            {
+                string content = button.Content.ToString();
+                if (int.TryParse(content, out int number))
+                {
+                    button.IsEnabled = number < _currentBase;
+                }
+                else
+                {
+                    button.IsEnabled = true;
+                }
+            }
         }
 
         // Actualizează toate casetele de text pentru baze diferite
@@ -166,15 +199,12 @@ namespace Calculator_APP_
             OctTextBox.Text = Convert.ToString(number, 8);
             BinTextBox.Text = Convert.ToString(number, 2);
         }
-        // Stiva de memorie
-        private Stack<double> memoryStack = new Stack<double>();
-
-    
+       
 
         // Funcția MS: Salvează valoarea din ResultTextBox în stiva
         private void MemorySaveClick(object sender, RoutedEventArgs e)
         {
-            if (double.TryParse(ResultTextBox.Text , out double value))
+            if (double.TryParse(ResultTextBox.Text, out double value))
             {
                 memoryStack.Push(value);  // Salvează valoarea în stiva
             }
