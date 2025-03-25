@@ -17,7 +17,7 @@ namespace Calculator_APP_
         {
             _operation = operation;
             isRepeatedEqual = false;
-            Error = null; // Resetăm mesajul de eroare
+            Error = null; 
         }
 
         public void SetNumber(double number)

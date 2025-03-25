@@ -6,14 +6,12 @@
       xmlns:local="clr-namespace:Calculator_APP_"
       mc:Ignorable="d" 
       d:DesignHeight="715" d:DesignWidth="450"
-      Title="ProgrammerPage">
-
-    <Page.DataContext>
-        <local:CalculatorViewModel/>
-    </Page.DataContext>
+      Title="ProgrammerPage"
+      KeyDown="Page_KeyDown"
+      DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    
 
     <Grid Background="Transparent">
-        <!-- Definire rânduri principale -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -22,7 +20,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Grid pentru TextBox-uri -->
         <Grid x:Name="Number_Form" Grid.Row="0" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
@@ -32,7 +29,6 @@
             <TextBox Margin="0,10,0,0" Background="Transparent" Foreground="White" Name="ResultTextBox"       Text="{Binding CurrentInput}" BorderBrush="Transparent" BorderThickness="0" Grid.Row="1" VerticalAlignment="Top" FontSize="24" IsReadOnly="True" TextAlignment="Right" Padding="-3,0,0,0"/>
         </Grid>
 
-        <!-- Grid pentru afișarea rezultatelor în diferite baze -->
         <Grid Grid.Row="1" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -54,7 +50,6 @@
             <RadioButton Foreground="White" Content="Bin" GroupName="Base"   Tag="2" Grid.Row="3" Grid.Column="1" />
         </Grid>
 
-        <!-- Rând suplimentar de butoane -->
         <Grid VerticalAlignment="Stretch" Grid.Row="3" Margin="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -64,15 +59,15 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Content="MC" Grid.Column="0" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5" Command="{Binding MemoryRemoveTopCommand}"/>
-            <Button Content="MR" Grid.Column="1" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5" Command="{Binding MemoryRecallCommand}"/>
-            <Button Content="M+" Grid.Column="2" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5" Command="{Binding MemoryAddCommand}"/>
-            <Button Content="M-" Grid.Column="3" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5" Command="{Binding MemorySubtractCommand}"/>
-            <Button Content="MS" Grid.Column="4" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5" Command="{Binding MemoryStoreCommand}"/>
-            <Button Content="Mv" Grid.Column="5" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5" Command="{Binding MemoryViewCommand}"/>
+            <Button Content="MC" Click= "MemoryClearClick"  Grid.Column="0" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
+            <Button Content="MR" Click= "MemoryRecallComand" Grid.Column="1" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
+            <Button Content="M+" Click= "MemoryAddClick" Grid.Column="2" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
+            <Button Content="M-" Click= "MemorySubstractClick" Grid.Column="3" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
+            <Button Content="MS" Click= "MemorySaveClick" Grid.Column="4" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
+            <Button Content="Mv" Click= "MemoryViewClick" Grid.Column="5" FontSize="24" Background="#4f4f4f" BorderBrush="Black" BorderThickness="2" Margin="5"/>
+
         </Grid>
 
-        <!-- Grid pentru butoane principale -->
         <Grid x:Name="ButtonGrid" Background="Black" Grid.Row="4" Margin="10,5,10,10">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -91,11 +86,12 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button Content="A" Grid.Row="0" Grid.Column="0" Command="{Binding NumberCommand}" CommandParameter="A" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2"/>
-            <Button Content="%" Grid.Row="0" Grid.Column="1" Command="{Binding PercentCommand}" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
-            <Button Content="CE" Grid.Row="0" Grid.Column="2" Command="{Binding ClearEntryCommand}" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
-            <Button Content="C" Grid.Row="0" Grid.Column="3" Command="{Binding ClearCommand}" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
-            <Button Content="DEL" Grid.Row="0" Grid.Column="4" Command="{Binding BackspaceCommand}" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
+            <Button Content="A" Grid.Row="0" Grid.Column="0" Click="Button_Click" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2"/>
+            <Button Content="%" Grid.Row="0" Grid.Column="1" Click="Operator_Click" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
+            <Button Content="CE" Grid.Row="0" Grid.Column="2" Click="ClearElement_Click" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
+            <Button Content="C" Grid.Row="0" Grid.Column="3" Click="Clear_Click" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
+            <Button Content="DEL" Grid.Row="0" Grid.Column="4" Click="Delete_Click" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
+
 
             <Button Content="B" Grid.Row="1" Grid.Column="0" Command="{Binding NumberCommand}" CommandParameter="B" FontSize="24" Background="#9e9e9e" BorderBrush="Black" BorderThickness="1" Margin="2"/>
             <Button Content="1/x" Grid.Row="1" Grid.Column="1" Command="{Binding ReciprocalCommand}" FontSize="24" Background="#676767" BorderBrush="Black" BorderThickness="1" Margin="2"/>
