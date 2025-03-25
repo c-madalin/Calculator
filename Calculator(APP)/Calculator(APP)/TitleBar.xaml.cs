@@ -27,7 +27,6 @@ namespace Calculator_APP_
 
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            // Permite deplasarea ferestrei la click pe zona de titlu
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 var window = Window.GetWindow(this);

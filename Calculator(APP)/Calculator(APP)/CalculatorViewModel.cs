@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows.Input;
 
 namespace Calculator_APP_
@@ -14,13 +15,37 @@ namespace Calculator_APP_
         private string _errorMessage;
         public ObservableCollection<MemoryItemViewModel> MemoryValues { get; }
 
+        private CultureInfo _cultureInfo;
+
+        public CultureInfo CultureInfo
+        {
+            get { return _cultureInfo; }
+            set
+            {
+                _cultureInfo = value;
+                OnPropertyChanged(nameof(CultureInfo));
+            }
+        }
+
+        private bool _isDigitGroupingEnabled;
+
+        public bool IsDigitGroupingEnabled
+        {
+            get { return _isDigitGroupingEnabled; }
+            set
+            {
+                _isDigitGroupingEnabled = value;
+                OnPropertyChanged(nameof(IsDigitGroupingEnabled));
+                CurrentInput = FormatNumber(_currentInput);
+            }
+        }
 
         public string CurrentInput
         {
             get { return _currentInput; }
             set
             {
-                _currentInput = value;
+                _currentInput = FormatNumber(value);
                 OnPropertyChanged(nameof(CurrentInput));
             }
         }
@@ -92,6 +117,27 @@ namespace Calculator_APP_
             MemoryViewCommand = new RelayCommand(ExecuteMemoryView);
             MemoryRemoveTopCommand = new RelayCommand(ExecuteMemoryRemoveTop);
             CurrentInput = string.Empty;
+
+            CultureInfo = CultureInfo.CurrentCulture;
+            IsDigitGroupingEnabled = true;
+        }
+
+        private string FormatNumber(string number)
+        {
+            if (!IsDigitGroupingEnabled)
+            {
+                return number;
+            }
+
+            var culture = CultureInfo;
+            if (long.TryParse(number, NumberStyles.AllowThousands, culture, out long num))
+            {
+                return num.ToString("N0", culture);
+            }
+            else
+            {
+                return number;
+            }
         }
 
         public void ExecuteAdd(object parameter)
@@ -147,7 +193,7 @@ namespace Calculator_APP_
             }
             else
             {
-                CurrentInput = _calculatorModel.Result.ToString();
+                CurrentInput = FormatNumber(_calculatorModel.Result.ToString());
                 LastOperation = $"{_calculatorModel.Result}";
                 ErrorMessage = null;
             }
@@ -208,7 +254,7 @@ namespace Calculator_APP_
             }
             else
             {
-                CurrentInput = _calculatorModel.Result.ToString();
+                CurrentInput = FormatNumber(_calculatorModel.Result.ToString());
                 LastOperation = $"√{_calculatorModel.Result}";
                 ErrorMessage = null;
             }
@@ -226,7 +272,7 @@ namespace Calculator_APP_
             }
             else
             {
-                CurrentInput = _calculatorModel.Result.ToString();
+                CurrentInput = FormatNumber(_calculatorModel.Result.ToString());
                 LastOperation = $"{_calculatorModel.Result}²";
                 ErrorMessage = null;
             }
@@ -244,7 +290,7 @@ namespace Calculator_APP_
             }
             else
             {
-                CurrentInput = _calculatorModel.Result.ToString();
+                CurrentInput = FormatNumber(_calculatorModel.Result.ToString());
                 LastOperation = $"1/{_calculatorModel.Result}";
                 ErrorMessage = null;
             }
@@ -264,7 +310,7 @@ namespace Calculator_APP_
                 }
                 else
                 {
-                    CurrentInput = _calculatorModel.Result.ToString();
+                    CurrentInput = FormatNumber(_calculatorModel.Result.ToString());
                     LastOperation = $"±{_calculatorModel.Result}";
                     ErrorMessage = null;
                 }
@@ -276,7 +322,7 @@ namespace Calculator_APP_
             if (double.TryParse(CurrentInput, out double num))
             {
                 _calculatorModel.SetNumber(num);
-                CurrentInput = _calculatorModel.Result.ToString();
+                CurrentInput = FormatNumber(_calculatorModel.Result.ToString());
             }
         }
 
@@ -285,8 +331,7 @@ namespace Calculator_APP_
             ExecuteNumber(input);
         }
 
-
-        //memory comands
+        // Memory commands
         private void ExecuteMemoryAdd(object parameter)
         {
             if (double.TryParse(CurrentInput, out double num))
@@ -319,7 +364,7 @@ namespace Calculator_APP_
             var memoryValue = _memoryModel.RecallMemory();
             if (memoryValue.HasValue)
             {
-                CurrentInput = memoryValue.Value.ToString();
+                CurrentInput = FormatNumber(memoryValue.Value.ToString());
             }
         }
 

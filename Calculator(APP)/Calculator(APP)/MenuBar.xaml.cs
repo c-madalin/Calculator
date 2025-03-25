@@ -6,7 +6,6 @@ namespace Calculator_APP_
 {
     public partial class MenuBar : UserControl
     {
-        // Definim un eveniment care va fi folosit pentru a anunța schimbarea paginii
         public event Action<Type> PageChanged;
         public event Action CopyRequested;
         public event Action CutRequested;

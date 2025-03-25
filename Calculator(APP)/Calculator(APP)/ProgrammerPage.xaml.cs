@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,6 +18,7 @@ namespace Calculator_APP_
         private int _secondNumber = 0;
         private int _currentBase = 10;
         private MemoryModel _memoryModel = new MemoryModel();
+        public bool IsDigitGroupingEnabled { get; set; } = true;
 
         public ProgrammerPage()
         {
@@ -66,10 +68,28 @@ namespace Calculator_APP_
 
         private void UpdateResultTextBox()
         {
-            ResultTextBox.Text = _currentInput;
+            ResultTextBox.Text = Punctuate(_currentInput);
         }
 
-        // Selectează operatorul și setează primul număr
+        private string Punctuate(string input)
+        {
+            if (!IsDigitGroupingEnabled)
+            {
+                return input;
+            }
+
+            var culture = CultureInfo.CurrentCulture;
+
+            if (long.TryParse(input, NumberStyles.AllowThousands, culture, out long number))
+            {
+                return number.ToString("N0", culture);
+            }
+            else
+            {
+                return input;
+            }
+        }
+
         private void Operator_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -82,7 +102,6 @@ namespace Calculator_APP_
             }
         }
 
-        // Șterge ultima cifră introdusă
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             if (_currentInput.Length > 0)
@@ -92,13 +111,16 @@ namespace Calculator_APP_
             }
         }
 
-        // Șterge tot
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             ClearAll();
         }
 
-        // Adaugă o metodă pentru resetarea completă a calculatorului
+        private void ClearElement_Click(object sender, RoutedEventArgs e)
+        {
+            _currentInput = string.Empty;
+            ResultTextBox.Text = string.Empty;
+        }
         private void ClearAll()
         {
             _currentInput = string.Empty;
@@ -113,17 +135,14 @@ namespace Calculator_APP_
             BinTextBox.Text = string.Empty;
         }
 
-        // Efectuează conversia în baza curentă și afișează rezultatul
         private void ShowResult(int number)
         {
             string result = Convert.ToString(number, _currentBase);
-            ResultTextBox.Text = result;
+            ResultTextBox.Text = Punctuate(result);
             _currentInput = result;
-            // Actualizează toate casetele de text pentru baze diferite
             UpdateAllBaseTextBoxes(number);
         }
 
-        // Metodă pentru calcularea rezultatului
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(_currentInput)) return;
@@ -141,7 +160,7 @@ namespace Calculator_APP_
                         result = _firstNumber / _secondNumber;
                     else
                     {
-                        ResultTextBox.Text = "Err"; // Evităm împărțirea la 0
+                        ResultTextBox.Text = "Err"; 
                         return;
                     }
                     break;
@@ -156,19 +175,17 @@ namespace Calculator_APP_
             ShowResult(result);
         }
 
-        // Operația NOT, aplicabilă pe un singur număr
         private void Not_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(_currentInput))
             {
                 int number = Convert.ToInt32(_currentInput, _currentBase);
-                int notResult = ~number; // Aplicăm operatorul bitwise NOT
+                int notResult = ~number; 
                 PreviousTextBox.Text = $"~{number}";
                 ShowResult(notResult);
             }
         }
 
-        // Schimbă baza curentă
         private void Base_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton radioButton = sender as RadioButton;
@@ -180,7 +197,6 @@ namespace Calculator_APP_
             }
         }
 
-        // Actualizează butoanele disponibile în funcție de baza curentă
         private void UpdateButtonGrid()
         {
             foreach (Button button in ButtonGrid.Children)
@@ -197,7 +213,6 @@ namespace Calculator_APP_
             }
         }
 
-        // Actualizează toate casetele de text pentru baze diferite
         private void UpdateAllBaseTextBoxes(int number)
         {
             HexTextBox.Text = Convert.ToString(number, 16);
@@ -258,11 +273,9 @@ namespace Calculator_APP_
 
         public void RefreshMemoryValues()
         {
-            // Refresh logic for memory values
-            // This could update UI elements or internal properties
+            
         }
 
-        // Initialize memory commands
         public ICommand MemoryAddCommand { get; }
         public ICommand MemorySubtractCommand { get; }
         public ICommand MemoryStoreCommand { get; }
@@ -270,7 +283,6 @@ namespace Calculator_APP_
         public ICommand MemoryViewCommand { get; }
         public ICommand MemoryRemoveTopCommand { get; }
 
-        // Event handlers for memory buttons
         private void MemoryClearClick(object sender, RoutedEventArgs e) => ExecuteMemoryRemoveTop(null);
         private void MemoryRecallComand(object sender, RoutedEventArgs e) => ExecuteMemoryRecall(null);
         private void MemoryAddClick(object sender, RoutedEventArgs e) => ExecuteMemoryAdd(null);
@@ -278,7 +290,6 @@ namespace Calculator_APP_
         private void MemorySaveClick(object sender, RoutedEventArgs e) => ExecuteMemoryStore(null);
         private void MemoryViewClick(object sender, RoutedEventArgs e) => ExecuteMemoryView(null);
 
-        // Handle keyboard input
         private void Page_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key >= Key.D0 && e.Key <= Key.D9)
