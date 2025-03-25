@@ -178,7 +178,6 @@ namespace Calculator_APP_
             LastOperation = $"{_calculatorModel.Result} ÷";
         }
 
-
         public void ExecuteEquals(object parameter)
         {
             if (double.TryParse(CurrentInput, out double num))
@@ -331,7 +330,9 @@ namespace Calculator_APP_
             ExecuteNumber(input);
         }
 
-        // Memory commands
+
+
+        // memory commands
         private void ExecuteMemoryAdd(object parameter)
         {
             if (double.TryParse(CurrentInput, out double num))

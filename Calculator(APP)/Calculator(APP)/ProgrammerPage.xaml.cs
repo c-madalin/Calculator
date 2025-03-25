@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+
 using System.Windows.Input;
 
 namespace Calculator_APP_
 {
-    /// <summary>
-    /// Interaction logic for ProgrammerPage.xaml
-    /// </summary>
     public partial class ProgrammerPage : Page
     {
         private string _currentInput = string.Empty;
@@ -144,14 +142,15 @@ namespace Calculator_APP_
         }
 
         private void Equals_Click(object sender, RoutedEventArgs e)
+
         {
-            if (string.IsNullOrEmpty(_currentInput)) return;
+            var viewModel = DataContext as CalculatorViewModel;
+            if (viewModel == null)
+                return;
 
-            _secondNumber = Convert.ToInt32(_currentInput, _currentBase);
-            int result = 0;
-
-            switch (_operator)
+            if (e.Key >= Key.D0 && e.Key <= Key.D9)
             {
+
                 case "+": result = _firstNumber + _secondNumber; break;
                 case "-": result = _firstNumber - _secondNumber; break;
                 case "*": result = _firstNumber * _secondNumber; break;
@@ -219,6 +218,7 @@ namespace Calculator_APP_
             DecTextBox.Text = Convert.ToString(number, 10);
             OctTextBox.Text = Convert.ToString(number, 8);
             BinTextBox.Text = Convert.ToString(number, 2);
+
         }
 
         // Memory commands
