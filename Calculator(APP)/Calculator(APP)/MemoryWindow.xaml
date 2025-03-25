@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator_APP_"
         mc:Ignorable="d"
-        Title="MemoryWindow" Height="450" Width="800">
+        Title="MemoryWindow" Height="550" Width="450" >
     <Grid>
         <ListBox ItemsSource="{Binding MemoryValues}">
             <ListBox.ItemTemplate>

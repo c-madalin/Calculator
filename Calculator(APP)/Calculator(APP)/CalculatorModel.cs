@@ -1,4 +1,6 @@
-﻿namespace Calculator_APP_
+﻿using System;
+
+namespace Calculator_APP_
 {
     public class CalculatorModel
     {

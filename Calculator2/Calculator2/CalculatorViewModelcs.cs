@@ -29,6 +29,7 @@ namespace Calculator2
         public ICommand MinusCommand { get; }
         public ICommand EqualsCommand { get; }
         public ICommand NumberCommand { get; }
+        public ICommand HexNumberCommand { get; }
         public ICommand MemoryAddCommand { get; }
         public ICommand MemorySubtractCommand { get; }
         public ICommand MemoryStoreCommand { get; }
@@ -44,6 +45,7 @@ namespace Calculator2
             AddCommand = new RelayCommand(ExecuteAdd);
             EqualsCommand = new RelayCommand(ExecuteEquals);
             NumberCommand = new RelayCommand<string>(ExecuteNumber);
+            HexNumberCommand = new RelayCommand<string>(ExecuteHexNumber);
             MinusCommand = new RelayCommand(ExecuteMinus);
             DivideCommand = new RelayCommand(ExecuteDivide);
             MemoryAddCommand = new RelayCommand(ExecuteMemoryAdd);
@@ -78,10 +80,10 @@ namespace Calculator2
 
         private void PerformIntermediateCalculation()
         {
-            if (double.TryParse(CurrentInput, out double num))
+            if (double.TryParse(CalculatorModel.ConvertHexToDecimal(CurrentInput).ToString(), out double num))
             {
                 _calculatorModel.SetNumber(num);
-                CurrentInput = _calculatorModel.Result.ToString();
+                CurrentInput = CalculatorModel.ConvertDecimalToHex(_calculatorModel.Result);
             }
         }
 
@@ -95,9 +97,14 @@ namespace Calculator2
             CurrentInput += number;
         }
 
+        private void ExecuteHexNumber(string hexNumber)
+        {
+            CurrentInput += hexNumber;
+        }
+
         private void ExecuteMemoryAdd(object parameter)
         {
-            if (double.TryParse(CurrentInput, out double num))
+            if (double.TryParse(CalculatorModel.ConvertHexToDecimal(CurrentInput).ToString(), out double num))
             {
                 _memoryModel.AddToMemory(num);
                 RefreshMemoryValues();
@@ -106,7 +113,7 @@ namespace Calculator2
 
         private void ExecuteMemorySubtract(object parameter)
         {
-            if (double.TryParse(CurrentInput, out double num))
+            if (double.TryParse(CalculatorModel.ConvertHexToDecimal(CurrentInput).ToString(), out double num))
             {
                 _memoryModel.SubtractFromMemory(num);
                 RefreshMemoryValues();
@@ -115,7 +122,7 @@ namespace Calculator2
 
         private void ExecuteMemoryStore(object parameter)
         {
-            if (double.TryParse(CurrentInput, out double num))
+            if (double.TryParse(CalculatorModel.ConvertHexToDecimal(CurrentInput).ToString(), out double num))
             {
                 _memoryModel.StoreMemory(num);
                 RefreshMemoryValues();
@@ -127,7 +134,7 @@ namespace Calculator2
             var memoryValue = _memoryModel.RecallMemory();
             if (memoryValue.HasValue)
             {
-                CurrentInput = memoryValue.Value.ToString();
+                CurrentInput = CalculatorModel.ConvertDecimalToHex(memoryValue.Value);
             }
         }
 
